@@ -8,7 +8,8 @@ import {
   Radio,
   Card,
   Table,
-  Button
+  Button,
+  DatePicker
 } from "antd";
 import { base_url, mockTeachersResponse } from "../../utils/api";
 import { tableColumns } from "./constants";
@@ -21,9 +22,16 @@ const AddTeacherForm = Form.create({
   name: "form_add_teacher_in_modal"
 })(
   class extends React.Component {
+    onChange = (date, dateString) => {
+      console.log(date, dateString);
+    };
     render() {
       const { visible, onCancel, onCreate, form } = this.props;
       const { getFieldDecorator } = form;
+      // const formItemLayout = {
+      //   labelCol: { span: 6 },
+      //   wrapperCol: { span: 14 }
+      // };
       return (
         <Modal
           visible={visible}
@@ -33,21 +41,43 @@ const AddTeacherForm = Form.create({
           onOk={onCreate}
         >
           <Form layout="vertical">
-            <Form.Item label="Teacher">
+            <Form.Item label="Nama Depan">
               {getFieldDecorator("title", {
                 rules: [
                   {
                     required: true,
-                    message: "Please input the Teacher of collection!"
+                    message:
+                      "Please input the Nama Depan of collection!"
                   }
                 ]
               })(<Input />)}
             </Form.Item>
-            <Form.Item label="Description">
-              {getFieldDecorator("description")(
-                <Input type="textarea" />
-              )}
+            <Form.Item label="Nama Belakang">
+              {getFieldDecorator("title", {
+                rules: [
+                  {
+                    required: true,
+                    message:
+                      "Please input the Nama Belakang of collection!"
+                  }
+                ]
+              })(<Input />)}
             </Form.Item>
+            <Form.Item label="Tempat Lahir">
+              {getFieldDecorator("title", {
+                rules: [
+                  {
+                    required: true,
+                    message:
+                      "Please input the Tempat Lahir of collection!"
+                  }
+                ]
+              })(<Input />)}
+            </Form.Item>
+            <Form.Item label="Tanggal Lahir">
+              <DatePicker onChange={this.onChange} />
+            </Form.Item>
+            <br />
             <Form.Item className="collection-create-form_last-form-item">
               {getFieldDecorator("modifier", {
                 initialValue: "male"
@@ -57,6 +87,49 @@ const AddTeacherForm = Form.create({
                   <Radio value="female">Wanita</Radio>
                 </Radio.Group>
               )}
+            </Form.Item>
+            <br />
+            <Form.Item label="Agama">
+              {getFieldDecorator("title", {
+                rules: [
+                  {
+                    required: true,
+                    message: "Please input the Agama of collection!"
+                  }
+                ]
+              })(<Input />)}
+            </Form.Item>
+            <Form.Item label="Asal Universitas">
+              {getFieldDecorator("title", {
+                rules: [
+                  {
+                    required: true,
+                    message:
+                      "Please input the Asal Universitas of collection!"
+                  }
+                ]
+              })(<Input />)}
+            </Form.Item>
+            <Form.Item label="Jurusan">
+              {getFieldDecorator("title", {
+                rules: [
+                  {
+                    required: true,
+                    message: "Please input the Jurusan of collection!"
+                  }
+                ]
+              })(<Input />)}
+            </Form.Item>
+            <Form.Item label="Angkatan">
+              {getFieldDecorator("title", {
+                rules: [
+                  {
+                    required: true,
+                    message:
+                      "Please input the Angkatan of collection!"
+                  }
+                ]
+              })(<Input />)}
             </Form.Item>
           </Form>
         </Modal>

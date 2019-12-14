@@ -5,6 +5,7 @@ import AppLayout from "./commons/AppLayout";
 import Dashboard from "./pages/dashboard";
 import Teachers from "./pages/teacher";
 import Clc from "./pages/clc";
+import Error404 from "./pages/error";
 import "./App.css";
 
 function AppRouter() {
@@ -16,6 +17,7 @@ function AppRouter() {
             <Route exact path="/" component={Dashboard} />
             <Route path="/teacher" component={Teachers} />
             <Route path="/clc" component={Clc} />
+            <Route component={Error404} />
           </Switch>
         </React.Suspense>
       </AppLayout>

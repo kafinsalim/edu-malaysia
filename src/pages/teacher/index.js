@@ -17,8 +17,9 @@ import ModalAddTeacher from "./ModalAddTeacher";
 
 const { Search } = Input;
 
-const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
-  // eslint-disable-next-line
+const AddTeacherForm = Form.create({
+  name: "form_add_teacher_in_modal"
+})(
   class extends React.Component {
     render() {
       const { visible, onCancel, onCreate, form } = this.props;
@@ -26,18 +27,18 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
       return (
         <Modal
           visible={visible}
-          title="Create a new collection"
-          okText="Create"
+          title="Add New Teacher"
+          okText="Add"
           onCancel={onCancel}
           onOk={onCreate}
         >
           <Form layout="vertical">
-            <Form.Item label="Title">
+            <Form.Item label="Teacher">
               {getFieldDecorator("title", {
                 rules: [
                   {
                     required: true,
-                    message: "Please input the title of collection!"
+                    message: "Please input the Teacher of collection!"
                   }
                 ]
               })(<Input />)}
@@ -49,11 +50,11 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
             </Form.Item>
             <Form.Item className="collection-create-form_last-form-item">
               {getFieldDecorator("modifier", {
-                initialValue: "public"
+                initialValue: "male"
               })(
                 <Radio.Group>
-                  <Radio value="public">Public</Radio>
-                  <Radio value="private">Private</Radio>
+                  <Radio value="male">Pria</Radio>
+                  <Radio value="female">Wanita</Radio>
                 </Radio.Group>
               )}
             </Form.Item>
@@ -66,7 +67,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
 
 const Teachers = props => {
   const [fetching, setFetching] = React.useState(false);
-  const [teachers, setTeachers] = React.useState(false);
+  const [teachers, setTeachers] = React.useState([]);
   const [modalVisible, setModalVisible] = React.useState(false);
 
   React.useEffect(() => {
@@ -86,7 +87,7 @@ const Teachers = props => {
 
   console.log("render", teachers);
   return (
-    <>
+    <Card style={{ minHeight: "70%" }}>
       {fetching ? (
         <Container>
           <Spin />
@@ -95,30 +96,33 @@ const Teachers = props => {
         <>
           <Container>
             <Search
-              placeholder="Search Teacher"
+              placeholder="Cari Guru"
               onSearch={value => console.log(value)}
               style={{ width: "90%", marginRight: "10%" }}
             />
-            <Button onClick={() => setModalVisible(true)}>
-              Add Teachers
+            <Button
+              onClick={() => setModalVisible(true)}
+              type="primary"
+            >
+              Tambah Data Guru
             </Button>
           </Container>
           <br />
           <Table
             dataSource={teachers}
             columns={tableColumns}
-            rowKey={teachers.id}
+            rowKey="id"
           />
         </>
       )}
-      <CollectionCreateForm
+      <AddTeacherForm
         // wrappedComponentRef={saveFormRef}
         visible={modalVisible}
         onCancel={() => setModalVisible(false)}
         onCreate={() => setModalVisible(false)}
       />
       {/* {modalVisible && <ModalAddTeacher />} */}
-    </>
+    </Card>
   );
 };
 

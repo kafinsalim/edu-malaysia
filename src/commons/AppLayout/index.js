@@ -65,7 +65,6 @@ const Title = styled.div`
 
 const StyledLink = styled(Link)`
   display: block;
-  padding: 16px 24px;
   font-size: 14px;
   color: #666;
   ${props =>
@@ -74,12 +73,6 @@ const StyledLink = styled(Link)`
       background-color: aliceblue;
       border-right: 3px solid blue;
     `}
-`;
-
-const Container = styled.div`
-  padding: 24px;
-  background-color: #eff1f4;
-  height: 100%;
 `;
 
 const Menu = ({
@@ -95,6 +88,10 @@ const Menu = ({
       style={{
         display: "flex",
         minWidth: toggle ? 0 : 200,
+        paddingTop: 16,
+        paddingBottom: 16,
+        paddingLeft: toggle ? 16 : 24,
+        paddingRight: toggle ? 16 : 24,
         transition: 0.5
       }}
     >
@@ -107,8 +104,8 @@ const Menu = ({
   return (
     <StyledLink
       to={to}
-      active={active}
-      toggle={false}
+      active={active ? 1 : 0}
+      toggle={toggle}
       onClick={() => onClick(text)}
     >
       {toggle ? (
@@ -124,13 +121,21 @@ const Menu = ({
 
 const Sider = ({ children }) => <StyledSider>{children}</StyledSider>;
 
+const Container = styled.div`
+  padding: 24px;
+  background-color: #eff1f4;
+  overflow: scroll;
+  height: 100%;
+`;
+
 export default function AppLayout({ children }) {
   const [activeMenu, setActiveMenu] = React.useState("Home");
-  const [toggleSider, setToggleSider] = React.useState(false);
+  const [toggleSider, setToggleSider] = React.useState(0);
   console.log("render activeMenu", activeMenu);
 
   const handleSiderToggle = () => {
-    setToggleSider(!toggleSider);
+    const toggleValue = toggleSider ? 0 : 1;
+    setToggleSider(toggleValue);
   };
 
   return (
@@ -184,7 +189,7 @@ export default function AppLayout({ children }) {
             <Breadcrumb.Item>{activeMenu}</Breadcrumb.Item>
             <Breadcrumb.Item>Data</Breadcrumb.Item>
           </Breadcrumb>
-          <Card style={{ minHeight: "70%" }}>{children}</Card>
+          {children}
           <br />
           <span style={{ float: "right" }}>Edu Malaysia - 2019</span>
         </Container>

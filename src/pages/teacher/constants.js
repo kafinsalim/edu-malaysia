@@ -20,7 +20,7 @@ const tableColumns = [
     key: "date_of_birth"
   },
   {
-    title: "Jenis Kelmain",
+    title: "Jenis Kelamin",
     dataIndex: "gender",
     key: "gender"
   },

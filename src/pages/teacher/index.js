@@ -10,7 +10,8 @@ import {
   Table,
   Button
 } from "antd";
-import { base_url } from "../../utils/api";
+import { base_url, mockTeachersResponse } from "../../utils/api";
+import { tableColumns } from "./constants";
 import { Container } from "../../uikit";
 import ModalAddTeacher from "./ModalAddTeacher";
 
@@ -69,65 +70,21 @@ const Teachers = props => {
   const [modalVisible, setModalVisible] = React.useState(false);
 
   React.useEffect(() => {
-    async function getTeachers() {
+    function getTeachers() {
       setFetching(true);
-      await axios.get(`${base_url}/teachers`).then(response => {
-        setTeachers(response.data);
+      // await axios.get(`${base_url}/teachers`).then(response => {
+      //   setTeachers(response.data);
+      //   setFetching(false);
+      // });
+      setTimeout(function() {
+        setTeachers(mockTeachersResponse);
         setFetching(false);
-      });
+      }, 750);
     }
     getTeachers();
   }, []);
 
-  const columns = [
-    {
-      title: "Nama Depan",
-      dataIndex: "first_name",
-      key: "first_name"
-    },
-    {
-      title: "Nama Belakang",
-      dataIndex: "last_name",
-      key: "last_name"
-    },
-    {
-      title: "Tempat Lahir",
-      dataIndex: "place_of_birth",
-      key: "place_of_birth"
-    },
-    {
-      title: "Tanggal Lahir",
-      dataIndex: "date_of_birth",
-      key: "date_of_birth"
-    },
-    {
-      title: "Jenis Kelmain",
-      dataIndex: "gender",
-      key: "gender"
-    },
-    {
-      title: "Agama",
-      dataIndex: "religion",
-      key: "religion"
-    },
-    {
-      title: "Asal Universitas",
-      dataIndex: "university",
-      key: "university"
-    },
-    {
-      title: "Jurusan",
-      dataIndex: "major",
-      key: "major"
-    },
-    {
-      title: "Angkatan Tahapan",
-      dataIndex: "year_of_dedication",
-      key: "year_of_dedication"
-    }
-  ];
-
-  console.log("render");
+  console.log("render", teachers);
   return (
     <>
       {fetching ? (
@@ -147,7 +104,11 @@ const Teachers = props => {
             </Button>
           </Container>
           <br />
-          <Table dataSource={teachers} columns={columns} />
+          <Table
+            dataSource={teachers}
+            columns={tableColumns}
+            rowKey={teachers.id}
+          />
         </>
       )}
       <CollectionCreateForm

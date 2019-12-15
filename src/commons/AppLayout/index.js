@@ -138,6 +138,15 @@ export default function AppLayout({ children }) {
     setToggleSider(toggleValue);
   };
 
+  React.useEffect(() => {
+    // effect
+    console.log("AppLayout useEffect render!");
+
+    return () => {
+      console.log("AppLayout useEffect cleanup!");
+    };
+  });
+
   return (
     <WindowLayout>
       <Sider>

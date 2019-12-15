@@ -1,3 +1,16 @@
+import React from "react";
+import { Popconfirm, message } from "antd";
+
+function confirm(e) {
+  console.log(e);
+  message.success("Click on Yes");
+}
+
+function cancel(e) {
+  console.log(e);
+  message.error("Click on No");
+}
+
 const tableColumns = [
   {
     title: "Nama Depan",
@@ -43,6 +56,26 @@ const tableColumns = [
     title: "Angkatan Tahapan",
     dataIndex: "year_of_dedication",
     key: "year_of_dedication"
+  },
+  {
+    title: "Tindakan",
+    key: "action",
+    render: (text, record) => (
+      <span>
+        <a onClick={() => message.success(`edit ${record.id}`)}>edit</a>
+        <br />
+        <Popconfirm
+          title="Apakah anda yakin menghapus data ini?"
+          onConfirm={confirm}
+          onCancel={cancel}
+          okText="Yes"
+          cancelText="No"
+          placement="left"
+        >
+          <a onClick={() => console.log(`hapus ${record.id}`)}>hapus</a>
+        </Popconfirm>
+      </span>
+    )
   }
 ];
 

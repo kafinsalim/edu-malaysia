@@ -4,9 +4,9 @@ import { Card, Row, Col, Icon } from "antd";
 const Dashboard = () => (
   <>
     <Row type="flex" justify="space-between">
-      <Col span={5}>
-        <Card>
-          <h1>
+      <Col span={6}>
+        <Card style={{ textAlign: "center", marginRight: 16 }}>
+          <h1 style={{ margin: 0, lineHeight: "2em" }}>
             <span role="img" aria-label="emoji">
               👨‍🏫
             </span>{" "}
@@ -14,9 +14,15 @@ const Dashboard = () => (
           </h1>
         </Card>
       </Col>
-      <Col span={5}>
-        <Card>
-          <h1>
+      <Col span={6}>
+        <Card
+          style={{
+            textAlign: "center",
+            marginLeft: 8,
+            marginRight: 8
+          }}
+        >
+          <h1 style={{ margin: 0, lineHeight: "2em" }}>
             <span role="img" aria-label="emoji">
               🏫
             </span>{" "}
@@ -24,9 +30,15 @@ const Dashboard = () => (
           </h1>
         </Card>
       </Col>
-      <Col span={5}>
-        <Card>
-          <h1>
+      <Col span={6}>
+        <Card
+          style={{
+            textAlign: "center",
+            marginLeft: 8,
+            marginRight: 8
+          }}
+        >
+          <h1 style={{ margin: 0, lineHeight: "2em" }}>
             <span role="img" aria-label="emoji">
               👨‍🎓
             </span>{" "}
@@ -34,9 +46,9 @@ const Dashboard = () => (
           </h1>
         </Card>
       </Col>
-      <Col span={5}>
-        <Card>
-          <h1>
+      <Col span={6}>
+        <Card style={{ textAlign: "center", marginLeft: 16 }}>
+          <h1 style={{ margin: 0, lineHeight: "2em" }}>
             <span role="img" aria-label="emoji">
               📚
             </span>{" "}

@@ -9,134 +9,15 @@ import {
   Card,
   Table,
   Button,
-  DatePicker
+  DatePicker,
+  message
 } from "antd";
 import { base_url, mockTeachersResponse } from "../../utils/api";
 import { tableColumns } from "./constants";
-import { Container } from "../../uikit";
-import ModalAddTeacher from "./ModalAddTeacher";
+import { Container, Spinner } from "../../uikit";
+import AddTeacherForm from "./AddTeacherForm";
 
 const { Search } = Input;
-
-const AddTeacherForm = Form.create({
-  name: "form_add_teacher_in_modal"
-})(
-  class extends React.Component {
-    onChange = (date, dateString) => {
-      console.log(date, dateString);
-    };
-    render() {
-      const { visible, onCancel, onCreate, form } = this.props;
-      const { getFieldDecorator } = form;
-      // const formItemLayout = {
-      //   labelCol: { span: 6 },
-      //   wrapperCol: { span: 14 }
-      // };
-      return (
-        <Modal
-          visible={visible}
-          title="Add New Teacher"
-          okText="Add"
-          onCancel={onCancel}
-          onOk={onCreate}
-        >
-          <Form layout="vertical">
-            <Form.Item label="Nama Depan">
-              {getFieldDecorator("title", {
-                rules: [
-                  {
-                    required: true,
-                    message:
-                      "Please input the Nama Depan of collection!"
-                  }
-                ]
-              })(<Input />)}
-            </Form.Item>
-            <Form.Item label="Nama Belakang">
-              {getFieldDecorator("title", {
-                rules: [
-                  {
-                    required: true,
-                    message:
-                      "Please input the Nama Belakang of collection!"
-                  }
-                ]
-              })(<Input />)}
-            </Form.Item>
-            <Form.Item label="Tempat Lahir">
-              {getFieldDecorator("title", {
-                rules: [
-                  {
-                    required: true,
-                    message:
-                      "Please input the Tempat Lahir of collection!"
-                  }
-                ]
-              })(<Input />)}
-            </Form.Item>
-            <Form.Item label="Tanggal Lahir">
-              <DatePicker onChange={this.onChange} />
-            </Form.Item>
-            <br />
-            <Form.Item className="collection-create-form_last-form-item">
-              {getFieldDecorator("modifier", {
-                initialValue: "male"
-              })(
-                <Radio.Group>
-                  <Radio value="male">Pria</Radio>
-                  <Radio value="female">Wanita</Radio>
-                </Radio.Group>
-              )}
-            </Form.Item>
-            <br />
-            <Form.Item label="Agama">
-              {getFieldDecorator("title", {
-                rules: [
-                  {
-                    required: true,
-                    message: "Please input the Agama of collection!"
-                  }
-                ]
-              })(<Input />)}
-            </Form.Item>
-            <Form.Item label="Asal Universitas">
-              {getFieldDecorator("title", {
-                rules: [
-                  {
-                    required: true,
-                    message:
-                      "Please input the Asal Universitas of collection!"
-                  }
-                ]
-              })(<Input />)}
-            </Form.Item>
-            <Form.Item label="Jurusan">
-              {getFieldDecorator("title", {
-                rules: [
-                  {
-                    required: true,
-                    message: "Please input the Jurusan of collection!"
-                  }
-                ]
-              })(<Input />)}
-            </Form.Item>
-            <Form.Item label="Angkatan">
-              {getFieldDecorator("title", {
-                rules: [
-                  {
-                    required: true,
-                    message:
-                      "Please input the Angkatan of collection!"
-                  }
-                ]
-              })(<Input />)}
-            </Form.Item>
-          </Form>
-        </Modal>
-      );
-    }
-  }
-);
 
 const Teachers = props => {
   const [fetching, setFetching] = React.useState(false);
@@ -144,27 +25,26 @@ const Teachers = props => {
   const [modalVisible, setModalVisible] = React.useState(false);
 
   React.useEffect(() => {
-    function getTeachers() {
+    // function getTeachers() {
+    async function getTeachers() {
       setFetching(true);
-      // await axios.get(`${base_url}/teachers`).then(response => {
-      //   setTeachers(response.data);
-      //   setFetching(false);
-      // });
-      setTimeout(function() {
-        setTeachers(mockTeachersResponse);
+      await axios.get(`${base_url}/teachers`).then(response => {
+        setTeachers(response.data);
         setFetching(false);
-      }, 750);
+      });
+      // setTimeout(function() {
+      //   setTeachers(mockTeachersResponse);
+      //   setFetching(false);
+      // }, 750);
     }
     getTeachers();
   }, []);
 
-  console.log("render", teachers);
+  // console.log("render", teachers);
   return (
     <Card style={{ minHeight: "70%" }}>
       {fetching ? (
-        <Container>
-          <Spin />
-        </Container>
+        <Spinner />
       ) : (
         <>
           <Container>
@@ -173,10 +53,7 @@ const Teachers = props => {
               onSearch={value => console.log(value)}
               style={{ width: "90%", marginRight: "10%" }}
             />
-            <Button
-              onClick={() => setModalVisible(true)}
-              type="primary"
-            >
+            <Button onClick={() => setModalVisible(true)} type="primary">
               Tambah Data Guru
             </Button>
           </Container>
@@ -185,18 +62,65 @@ const Teachers = props => {
             dataSource={teachers}
             columns={tableColumns}
             rowKey="id"
+            style={{ overflowX: "scroll" }}
           />
         </>
       )}
-      <AddTeacherForm
-        // wrappedComponentRef={saveFormRef}
+      <Modal
+        title="Tambahkan data Guru"
         visible={modalVisible}
         onCancel={() => setModalVisible(false)}
-        onCreate={() => setModalVisible(false)}
-      />
-      {/* {modalVisible && <ModalAddTeacher />} */}
+        onCreate={() => console.log("onCreate")}
+      >
+        <AddTeacherForm />
+      </Modal>
     </Card>
   );
 };
+
+const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
+  // eslint-disable-next-line
+  class extends React.Component {
+    render() {
+      const { visible, onCancel, onCreate, form } = this.props;
+      const { getFieldDecorator } = form;
+      return (
+        <Modal
+          visible={visible}
+          title="Create a new collection"
+          okText="Create"
+          onCancel={onCancel}
+          onOk={onCreate}
+        >
+          <Form layout="vertical">
+            <Form.Item label="Title">
+              {getFieldDecorator("title", {
+                rules: [
+                  {
+                    required: true,
+                    message: "Please input the title of collection!"
+                  }
+                ]
+              })(<Input />)}
+            </Form.Item>
+            <Form.Item label="Description">
+              {getFieldDecorator("description")(<Input type="textarea" />)}
+            </Form.Item>
+            <Form.Item className="collection-create-form_last-form-item">
+              {getFieldDecorator("modifier", {
+                initialValue: "public"
+              })(
+                <Radio.Group>
+                  <Radio value="public">Public</Radio>
+                  <Radio value="private">Private</Radio>
+                </Radio.Group>
+              )}
+            </Form.Item>
+          </Form>
+        </Modal>
+      );
+    }
+  }
+);
 
 export default Teachers;

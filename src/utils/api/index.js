@@ -173,6 +173,6 @@ const mockTeachersResponse = [
   }
 ];
 
-const fetchAPI = async endpoint => axios.get(`${base_url}/${endpoint}`);
+const fetchAPI = async endpoint => await axios.get(`${base_url}/${endpoint}`);
 
 export { base_url, mockTeachersResponse, fetchAPI };

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import moment from "moment";
 import "moment/locale/id";
@@ -88,7 +89,7 @@ const formatedColumns = [
     render: (text, row) => `${row.first_name} ${row.last_name}`
   },
   {
-    title: "Tempat dan Tanggal Lahir",
+    title: "Tempat Tanggal Lahir",
     key: "ttl",
     render: (text, row) => (
       <span>

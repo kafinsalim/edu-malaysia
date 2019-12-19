@@ -23,22 +23,30 @@ const Teachers = props => {
   const [teachers, setTeachers] = React.useState([]);
   const [modalVisible, setModalVisible] = React.useState(false);
 
+  const refreshTableData = () => {
+    setFetching(true);
+    fetchAPI("teachers").then(response => {
+      setTeachers(response.data);
+      setFetching(false);
+    });
+  };
+
   React.useEffect(() => {
-    // async function getTeachers() {
-    //   setFetching(true);
-    //   await fetchAPI("teachers").then(response => {
-    //     setTeachers(response.data);
-    //     setFetching(false);
-    //   });
-    // }
     function getTeachers() {
       setFetching(true);
-      setTimeout(function() {
-        // setTeachers(formatedTeachers(mockTeachersResponse));
-        setTeachers(mockTeachersResponse);
+      fetchAPI("teachers").then(response => {
+        setTeachers(response.data);
         setFetching(false);
-      }, 750);
+      });
     }
+    // function getTeachers() {
+    //   setFetching(true);
+    //   setTimeout(function() {
+    //     // setTeachers(formatedTeachers(mockTeachersResponse));
+    //     setTeachers(mockTeachersResponse);
+    //     setFetching(false);
+    //   }, 750);
+    // }
     getTeachers();
   }, []);
 
@@ -66,11 +74,18 @@ const Teachers = props => {
       />
       <Modal
         title="Tambahkan data Guru"
+        style={{ top: 32 }}
         visible={modalVisible}
         onCancel={() => setModalVisible(false)}
         onCreate={() => console.log("onCreate")}
+        footer={null}
       >
-        <AddTeacherForm />
+        <AddTeacherForm
+          closeModal={() => {
+            setModalVisible(false);
+            refreshTableData();
+          }}
+        />
       </Modal>
     </Card>
   );

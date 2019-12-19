@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { StoreProvider, createStore } from "easy-peasy";
+// import { StoreProvider, createStore } from "easy-peasy";
 import { Breadcrumb, Icon } from "antd";
 import Sider from "./Sider";
 import Header from "./Header";

@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Row, Col, Icon } from "antd";
+import { Card, Row, Col } from "antd";
 
 const Dashboard = () => (
   <>
@@ -61,9 +61,8 @@ const Dashboard = () => (
     <Card style={{ minHeight: "60%" }}>
       <h2>This is a Dashboard Page</h2>
       <p>
-        welcome to dashboard page, put some of your content summary
-        here because everyone logged in to this web will see this page
-        first.
+        welcome to dashboard page, put some of your content summary here because everyone
+        logged in to this web will see this page first.
       </p>
       <p>content on development:</p>
       <ul>
@@ -71,8 +70,7 @@ const Dashboard = () => (
         <li>Teachers page</li>
       </ul>
       <p>
-        Please kindly give some feedback for this application. Thank
-        you{" "}
+        Please kindly give some feedback for this application. Thank you{" "}
         <span role="img" aria-label="emoji">
           ❤️
         </span>

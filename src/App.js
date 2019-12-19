@@ -8,10 +8,14 @@ import Clc from "./pages/clc";
 import Error404 from "./pages/error";
 import "./App.css";
 
+// set dynamic config based on initial client side state
+const device = window && window.innerWidth < 721 ? "mobile-web" : "web";
+const path = window.location.pathname;
+
 function AppRouter() {
   return (
     <BrowserRouter>
-      <AppLayout>
+      <AppLayout layout={device} initialPath={path}>
         <React.Suspense fallback={<h1>loading</h1>}>
           <Switch>
             <Route exact path="/" component={Dashboard} />

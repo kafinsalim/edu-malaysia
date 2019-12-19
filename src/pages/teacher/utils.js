@@ -75,7 +75,7 @@ const tableColumns = [
           cancelText="No"
           placement="left"
         >
-          <a onClick={() => console.log(`hapus ${record.id}`)}>hapus</a>
+          <a onClick={() => console.log(`arsipkan ${record.id}`)}>arsipkan</a>
         </Popconfirm>
       </span>
     )
@@ -143,7 +143,7 @@ const formatedColumns = [
           cancelText="No"
           placement="left"
         >
-          <a onClick={() => console.log(`hapus ${record.id}`)}>hapus</a>
+          <a onClick={() => console.log(`arsipkan ${record.id}`)}>arsipkan</a>
         </Popconfirm>
       </span>
     )
@@ -211,7 +211,7 @@ const formatedTeachers = data => {
 //           cancelText="No"
 //           placement="left"
 //         >
-//           <a onClick={() => console.log(`hapus ${record.id}`)}>hapus</a>
+//           <a onClick={() => console.log(`arsipkan ${record.id}`)}>arsipkan</a>
 //         </Popconfirm>
 //       </span>
 //     )

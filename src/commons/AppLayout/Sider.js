@@ -32,15 +32,9 @@ const StyledLink = styled(Link)`
   display: flex;
   font-size: 14px;
   color: #666;
-  min-width: 200px;
-  padding: 12px 24px;
+  min-width: ${props => (!!props.toggle ? "0px" : "200px")}
+  padding: 8px ${props => (!!props.toggle ? "16px" : "24px")}
   transition: all 0.5s;
-  ${props =>
-    !!props.toggle &&
-    css`
-      min-width: 0px;
-      padding: 12px 16px;
-    `}
   border-right: 3px solid white;
   ${props =>
     !!props.active &&
@@ -53,23 +47,13 @@ const StyledLink = styled(Link)`
 
 const MenuIcon = styled(Icon)`
   display: inline-block;
-  margin-right: 12px;
+  margin-right: ${props => (!!props.toggle ? "0px" : "12px")}
   line-height: 32px !important;
-  ${props =>
-    !!props.toggle &&
-    css`
-      margin-right: 0px;
-    `}
 `;
 
 const MenuText = styled.span`
-  display: inline-block;
+  display: ${props => (!!props.toggle ? "none" : "inline-block")}
   line-height: 32px;
-  ${props =>
-    !!props.toggle &&
-    css`
-      display: none;
-    `}
 `;
 
 const Menu = ({ text, path, active = "/", icon, toggle = false, onClick }) => {

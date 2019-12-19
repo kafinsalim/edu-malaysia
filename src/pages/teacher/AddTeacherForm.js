@@ -2,7 +2,6 @@ import React from "react";
 import useForm from "react-hook-form";
 import { Button, Form, message } from "antd";
 // import "./style.css";
-
 const key = "updatable";
 
 const openMessage = () => {
@@ -18,10 +17,23 @@ export default function AddTeacherForm() {
     console.log("submit", data);
   }; // your form submit function which will invoke after successful validation
 
+  /*
+        "created_at": "2019-12-17T15:30:29.888Z",
+        "updated_at": "2019-12-17T15:30:29.888Z",
+        "first_name": "Fidel",
+        "last_name": "Ramadhan",
+        "place_of_birth": "DKI Jakarta",
+        "date_of_birth": "1997-12-31",
+        "gender": "L",
+        "religion": "Muslim",
+        "university": "Institut Teknologi Bandung",
+        "major": "teknik informatika",
+        "year_of_dedication": "06"
+  */
   // console.log(watch()); // you can watch individual input by pass the name of the input
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <label>Example</label>
       <Form.Item name="example" defaultValue="test" ref={register} />
       <label>ExampleRequired</label>
@@ -35,7 +47,7 @@ export default function AddTeacherForm() {
       <label>empat</label>
       <Form.Item name="empat" ref={register} />
 
-      <input type="submit" onClick={openMessage} />
-    </form>
+      <Button type="submit" onClick={openMessage} />
+    </Form>
   );
 }

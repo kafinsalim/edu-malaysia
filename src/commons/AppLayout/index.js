@@ -41,7 +41,6 @@ function getMenuName(path) {
 }
 
 const AppLayout = props => {
-  console.log(props);
   const { layout, children, initialPath } = props;
   const initialToggleStatus = layout === "mobile-web" ? true : false;
   // TODO: fix this ugly path

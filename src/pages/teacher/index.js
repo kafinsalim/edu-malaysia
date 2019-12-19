@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import {
   Spin,
   Input,
@@ -12,8 +11,8 @@ import {
   DatePicker,
   message
 } from "antd";
-import { base_url, mockTeachersResponse } from "../../utils/api";
-import { tableColumns } from "./constants";
+import { base_url, fetchAPI, mockTeachersResponse } from "../../utils/api";
+import { tableColumns, formatedColumns, formatedTeachers } from "./utils";
 import { Container, Spinner } from "../../uikit";
 import AddTeacherForm from "./AddTeacherForm";
 
@@ -25,17 +24,20 @@ const Teachers = props => {
   const [modalVisible, setModalVisible] = React.useState(false);
 
   React.useEffect(() => {
-    // function getTeachers() {
-    async function getTeachers() {
+    // async function getTeachers() {
+    //   setFetching(true);
+    //   await fetchAPI("teachers").then(response => {
+    //     setTeachers(response.data);
+    //     setFetching(false);
+    //   });
+    // }
+    function getTeachers() {
       setFetching(true);
-      await axios.get(`${base_url}/teachers`).then(response => {
-        setTeachers(response.data);
+      setTimeout(function() {
+        // setTeachers(formatedTeachers(mockTeachersResponse));
+        setTeachers(mockTeachersResponse);
         setFetching(false);
-      });
-      // setTimeout(function() {
-      //   setTeachers(mockTeachersResponse);
-      //   setFetching(false);
-      // }, 750);
+      }, 750);
     }
     getTeachers();
   }, []);
@@ -43,29 +45,25 @@ const Teachers = props => {
   // console.log("render", teachers);
   return (
     <Card style={{ minHeight: "70%" }}>
-      {fetching ? (
-        <Spinner />
-      ) : (
-        <>
-          <Container>
-            <Search
-              placeholder="Cari Guru"
-              onSearch={value => console.log(value)}
-              style={{ width: "90%", marginRight: "10%" }}
-            />
-            <Button onClick={() => setModalVisible(true)} type="primary">
-              Tambah Data Guru
-            </Button>
-          </Container>
-          <br />
-          <Table
-            dataSource={teachers}
-            columns={tableColumns}
-            rowKey="id"
-            style={{ overflowX: "scroll" }}
-          />
-        </>
-      )}
+      <Container>
+        <Search
+          placeholder="Cari Guru"
+          onSearch={value => console.log(value)}
+          style={{ width: "90%", marginRight: "10%" }}
+        />
+        <Button onClick={() => setModalVisible(true)} type="primary">
+          Tambah Data Guru
+        </Button>
+      </Container>
+      <br />
+      <Table
+        size="middle"
+        loading={fetching}
+        dataSource={teachers}
+        columns={formatedColumns}
+        rowKey="id"
+        style={{ overflowX: "scroll" }}
+      />
       <Modal
         title="Tambahkan data Guru"
         visible={modalVisible}
@@ -77,50 +75,5 @@ const Teachers = props => {
     </Card>
   );
 };
-
-const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
-  // eslint-disable-next-line
-  class extends React.Component {
-    render() {
-      const { visible, onCancel, onCreate, form } = this.props;
-      const { getFieldDecorator } = form;
-      return (
-        <Modal
-          visible={visible}
-          title="Create a new collection"
-          okText="Create"
-          onCancel={onCancel}
-          onOk={onCreate}
-        >
-          <Form layout="vertical">
-            <Form.Item label="Title">
-              {getFieldDecorator("title", {
-                rules: [
-                  {
-                    required: true,
-                    message: "Please input the title of collection!"
-                  }
-                ]
-              })(<Input />)}
-            </Form.Item>
-            <Form.Item label="Description">
-              {getFieldDecorator("description")(<Input type="textarea" />)}
-            </Form.Item>
-            <Form.Item className="collection-create-form_last-form-item">
-              {getFieldDecorator("modifier", {
-                initialValue: "public"
-              })(
-                <Radio.Group>
-                  <Radio value="public">Public</Radio>
-                  <Radio value="private">Private</Radio>
-                </Radio.Group>
-              )}
-            </Form.Item>
-          </Form>
-        </Modal>
-      );
-    }
-  }
-);
 
 export default Teachers;

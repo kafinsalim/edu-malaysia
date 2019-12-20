@@ -9,7 +9,7 @@ import Login from "../../pages/login";
 import Error404 from "../../pages/error";
 
 // set dynamic config based on initial client side state
-const device = window && window.innerWidth < 721 ? "mobile-web" : "web";
+const device = window && window.innerWidth < 960 ? "mobile-web" : "web";
 const path = window.location.pathname;
 
 export default function() {

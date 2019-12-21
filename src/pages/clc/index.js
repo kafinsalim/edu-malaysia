@@ -53,27 +53,35 @@ const Clc = props => {
 
   return (
     <Card style={{ minHeight: "70%" }}>
-      <Row gutter={24}>
-        <Col span={15}>
+      <Row gutter={[16, 16]}>
+        <Col xs={24} sm={12}>
           <Search
-            placeholder="Cari CLC"
+            placeholder="Cari Guru"
             onSearch={value => {
               console.log(value);
               // console.log(`filterValue ${filterValue}`);
               // setFilterValue(value);
             }}
-            // style={{ width: "40%", marginRight: "10%" }}
           />
         </Col>
-        <Col span={4}>
-          <Button onClick={openModal} type="primary">
-            <Icon type="file-excel" /> Ekspor
-          </Button>
-        </Col>
-        <Col span={5}>
-          <Button onClick={openModal} type="primary">
-            <Icon type="plus" /> Tambah CLC
-          </Button>
+        <Col xs={24} sm={12}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end"
+            }}
+          >
+            <Button
+              onClick={openModal}
+              type="primary"
+              style={{ marginRight: 16 }}
+            >
+              <Icon type="file-excel" /> Unduh
+            </Button>
+            <Button onClick={openModal} type="primary">
+              <Icon type="plus" /> CLC
+            </Button>
+          </div>
         </Col>
       </Row>
       <br />

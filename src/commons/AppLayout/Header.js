@@ -23,22 +23,20 @@ const RightIcons = styled.div`
   overflow: hidden;
 `;
 
-export default ({ onSiderToggleClick, toggleSiderStatus }) => {
-  return (
-    <HeaderContainer>
-      <ToggleSiderButton onClick={() => onSiderToggleClick()}>
-        {toggleSiderStatus ? (
-          <Icon type="menu-unfold" size="lg" style={{ marginRight: 16 }} />
-        ) : (
-          <Icon type="menu-fold" size="lg" style={{ marginRight: 16 }} />
-        )}
-      </ToggleSiderButton>
-      <b>EDU MALAYSIA</b>
-      <RightIcons>
-        <Icon type="bell" size="lg" style={{ padding: 8 }} />
-        <Icon type="user" size="lg" style={{ padding: 8 }} />
-        <Icon type="fullscreen" size="lg" style={{ padding: 8 }} />
-      </RightIcons>
-    </HeaderContainer>
-  );
-};
+export default ({ onSiderToggleClick, toggleSiderStatus }) => (
+  <HeaderContainer>
+    <ToggleSiderButton onClick={() => onSiderToggleClick()}>
+      {toggleSiderStatus ? (
+        <Icon type="menu-unfold" size="lg" style={{ marginRight: 16 }} />
+      ) : (
+        <Icon type="menu-fold" size="lg" style={{ marginRight: 16 }} />
+      )}
+    </ToggleSiderButton>
+    <b>EDU MALAYSIA</b>
+    <RightIcons>
+      <Icon type="bell" size="lg" style={{ padding: 8 }} />
+      <Icon type="user" size="lg" style={{ padding: 8 }} />
+      <Icon type="fullscreen" size="lg" style={{ padding: 8 }} />
+    </RightIcons>
+  </HeaderContainer>
+);

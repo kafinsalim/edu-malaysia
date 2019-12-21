@@ -47,11 +47,22 @@ const AppLayout = props => {
   const initialMenu = getMenuName(initialPath);
 
   const [activeMenu, setActiveMenu] = React.useState(initialMenu);
-  const [toggleSiderStatus, setToggleSiderStatus] = React.useState(initialToggleStatus);
+  const [toggleSiderStatus, setToggleSiderStatus] = React.useState(
+    initialToggleStatus
+  );
 
   const handleSiderToggle = () => {
     // const toggleValue = toggleSiderStatus ? 0 : 1; // convert to binary
     setToggleSiderStatus(!toggleSiderStatus);
+    // scroll if X scrollable to snap layout to content
+    setTimeout(function() {
+      // race with transition
+      if (toggleSiderStatus) {
+        window.scrollTo(0, 0); // scrollX to 0 left
+      } else {
+        window.scrollTo(1000, 0); // scrollX to 0 left
+      }
+    }, 750);
   };
 
   // React.useEffect(() => {

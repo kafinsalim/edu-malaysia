@@ -2,7 +2,7 @@ import React from "react";
 import { Icon, Input, Card, Table, Button, message, Row, Col } from "antd";
 import { fetchAPI, mockTeachersResponse } from "../../utils/serviceAPI";
 import { exportToXLSX } from "../../utils/export";
-import { formatedTeachersColumn } from "./utils";
+import { formatedTeachersColumn, formatTeachersForExport } from "./utils";
 import ModalTeacherForm from "./ModalTeacherForm";
 console.log("exportToXLSX", exportToXLSX);
 const { Search } = Input;
@@ -68,7 +68,9 @@ const Teachers = props => {
         <Col xs={24} sm={12}>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <Button
-              onClick={() => exportToXLSX(teachers, "Rekap Guru")}
+              onClick={() =>
+                exportToXLSX(formatTeachersForExport(teachers), "Rekap Guru")
+              }
               type="primary"
               style={{ marginRight: 16 }}
             >

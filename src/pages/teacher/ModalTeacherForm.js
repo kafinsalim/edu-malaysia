@@ -2,7 +2,7 @@ import React from "react";
 import useForm from "react-hook-form";
 import axios from "axios";
 import styled from "styled-components";
-import { base_url, fetchAPI } from "../../utils/api";
+import { base_url, fetchAPI } from "../../utils/serviceAPI";
 import {
   Modal,
   Select,
@@ -150,7 +150,7 @@ export default function ModalTeacherForm(props) {
           </Row>
           <Row gutter={[4, 16]}>
             <Col xs={24} sm={8}>
-              <label className="ant-form-item-required">Nama Belakang</label>
+              <label className="ant-form-item">Nama Belakang</label>
             </Col>
             <Col xs={24} sm={16}>
               <input

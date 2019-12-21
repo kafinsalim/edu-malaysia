@@ -1,9 +1,10 @@
 import React from "react";
 import { Icon, Input, Card, Table, Button, message, Row, Col } from "antd";
-import { fetchAPI, mockTeachersResponse } from "../../utils/api";
+import { fetchAPI, mockTeachersResponse } from "../../utils/serviceAPI";
+import { exportToXLSX } from "../../utils/export";
 import { formatedTeachersColumn } from "./utils";
 import ModalTeacherForm from "./ModalTeacherForm";
-
+console.log("exportToXLSX", exportToXLSX);
 const { Search } = Input;
 
 const Teachers = props => {
@@ -50,7 +51,7 @@ const Teachers = props => {
   const openModal = () => {
     setModalForm(true);
   };
-
+  console.log("teachers", teachers);
   return (
     <Card style={{ minHeight: "70%" }}>
       <Row gutter={[16, 16]}>
@@ -67,7 +68,7 @@ const Teachers = props => {
         <Col xs={24} sm={12}>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <Button
-              onClick={openModal}
+              onClick={() => exportToXLSX(teachers, "Rekap Guru")}
               type="primary"
               style={{ marginRight: 16 }}
             >

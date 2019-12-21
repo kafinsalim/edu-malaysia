@@ -19,7 +19,13 @@ const formatedClcsColumn = (onEdit, onArchive, filter = "") => {
     {
       title: "Level",
       dataIndex: "clc_level",
-      key: "clc_level"
+      key: "clc_level",
+      render: row => {
+        if (row.clc_level) {
+          return row.clc_level.substr(4).toUpperCase();
+        }
+        return "-";
+      }
     },
     {
       title: "Status",
@@ -42,7 +48,7 @@ const formatedClcsColumn = (onEdit, onArchive, filter = "") => {
       )
     },
     {
-      title: "Note",
+      title: "Catatan",
       dataIndex: "note",
       key: "note"
     },

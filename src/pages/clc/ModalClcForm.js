@@ -2,7 +2,7 @@ import React from "react";
 import useForm from "react-hook-form";
 import axios from "axios";
 import styled from "styled-components";
-import { base_url, fetchAPI } from "../../utils/api";
+import { base_url, fetchAPI } from "../../utils/serviceAPI";
 import { Modal, Select, DatePicker, message, Row, Col, Spin } from "antd";
 // import moment from "moment";
 import "moment/locale/id";
@@ -98,8 +98,8 @@ export default function ModalClcForm(props) {
   //   .locale("id")
   //   .format("LL");
   const {
-    first_name = "",
-    last_name = "",
+    name = "",
+    clc_level = "",
     place_of_birth = "",
     date_of_birth = "2001-01-01",
     gender = "L",
@@ -123,37 +123,44 @@ export default function ModalClcForm(props) {
           <Row gutter={[4, 16]}>
             <Col xs={24} sm={8}>
               <label className="ant-form-item-required  has-feedback has-warning">
-                Nama Depan
+                Nama CLC
               </label>
             </Col>
             <Col xs={24} sm={16}>
               <input
                 className="ant-input"
-                name="first_name"
-                defaultValue={first_name}
+                name="name"
+                defaultValue={name}
                 ref={register({ required: true })}
               />
-              {!!errors.first_name && (
-                <Warning>Mohon mengisi nama depan</Warning>
-              )}
+              {!!errors.name && <Warning>Mohon mengisi nama depan</Warning>}
             </Col>
           </Row>
           <Row gutter={[4, 16]}>
             <Col xs={24} sm={8}>
-              <label className="ant-form-item-required">Nama Belakang</label>
+              <label className="ant-form-item-required">Level</label>
             </Col>
             <Col xs={24} sm={16}>
+              <Select
+                defaultValue={clc_level}
+                onChange={e => {
+                  setValue("clc_level", e);
+                }}
+              >
+                <Select.Option value="SD">SD</Select.Option>
+                <Select.Option value="SMP">SMP</Select.Option>
+              </Select>
               <input
-                className="ant-input"
-                name="last_name"
-                defaultValue={last_name}
+                type="hidden"
+                name="gender"
+                defaultValue={gender}
                 ref={register}
               />
             </Col>
           </Row>
           <Row gutter={[4, 16]}>
             <Col xs={24} sm={8}>
-              <label className="ant-form-item-required">Tempat Lahir</label>
+              <label className="ant-form-item-required">Status</label>
             </Col>
             <Col xs={24} sm={16}>
               <input
@@ -169,7 +176,7 @@ export default function ModalClcForm(props) {
           </Row>
           <Row gutter={[4, 16]}>
             <Col xs={24} sm={8}>
-              <label className="ant-form-item-required">Tanggal Lahir</label>
+              <label className="ant-form-item-required"></label>
             </Col>
             <Col xs={24} sm={16}>
               <DatePicker
@@ -188,7 +195,7 @@ export default function ModalClcForm(props) {
           </Row>
           <Row gutter={[4, 16]}>
             <Col xs={24} sm={8}>
-              <label className="ant-form-item-required">Jenis Kelamin</label>
+              <label className="ant-form-item-required">Gugus</label>
             </Col>
             <Col xs={24} sm={16}>
               <Select
@@ -210,7 +217,7 @@ export default function ModalClcForm(props) {
           </Row>
           <Row gutter={[4, 16]}>
             <Col xs={24} sm={8}>
-              <label className="ant-form-item-required">Agama</label>
+              <label className="ant-form-item-required">Koordinate</label>
             </Col>
             <Col xs={24} sm={16}>
               <input
@@ -223,7 +230,7 @@ export default function ModalClcForm(props) {
           </Row>
           <Row gutter={[4, 16]}>
             <Col xs={24} sm={8}>
-              <label className="ant-form-item-required">Asal Universitas</label>
+              <label className="ant-form-item-required">Note</label>
             </Col>
             <Col xs={24} sm={16}>
               <input
@@ -234,36 +241,6 @@ export default function ModalClcForm(props) {
               />
               {!!errors.university && (
                 <Warning>Mohon mengisi asal universitas</Warning>
-              )}
-            </Col>
-          </Row>
-          <Row gutter={[4, 16]}>
-            <Col xs={24} sm={8}>
-              <label className="ant-form-item-required">Jurusan</label>
-            </Col>
-            <Col xs={24} sm={16}>
-              <input
-                className="ant-input"
-                name="major"
-                defaultValue={major}
-                ref={register({ required: true })}
-              />
-              {!!errors.major && <Warning>Mohon mengisi jurusan</Warning>}
-            </Col>
-          </Row>
-          <Row gutter={[4, 16]}>
-            <Col xs={24} sm={8}>
-              <label className="ant-form-item-required">Tahun Angkatan</label>
-            </Col>
-            <Col xs={24} sm={16}>
-              <input
-                className="ant-input"
-                name="year_of_dedication"
-                defaultValue={year_of_dedication}
-                ref={register({ required: true })}
-              />
-              {!!errors.year_of_dedication && (
-                <Warning>Mohon mengisi tahun angkatan</Warning>
               )}
             </Col>
           </Row>

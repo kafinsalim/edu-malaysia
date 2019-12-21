@@ -1,6 +1,7 @@
 import React from "react";
 import { Icon, Input, Card, Table, Button, message, Row, Col } from "antd";
-import { fetchAPI, mockClcResponse } from "../../utils/api";
+import { fetchAPI, mockClcResponse } from "../../utils/serviceAPI";
+import { exportToXLSX } from "../../utils/export";
 import { formatedClcsColumn } from "./utils";
 import ModalClcForm from "./ModalClcForm";
 
@@ -72,7 +73,7 @@ const Clc = props => {
             }}
           >
             <Button
-              onClick={openModal}
+              onClick={() => exportToXLSX(clcs, "Rekap CLC")}
               type="primary"
               style={{ marginRight: 16 }}
             >

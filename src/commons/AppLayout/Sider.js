@@ -2,6 +2,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 import { Icon } from "antd";
+import Menus from "./menuConfig";
 
 const StyledSider = styled.div`
   height: 100vh;
@@ -32,8 +33,8 @@ const StyledLink = styled(Link)`
   display: flex;
   font-size: 14px;
   color: #666;
-  min-width: ${props => (!!props.toggle ? "0px" : "200px")}
-  padding: 8px ${props => (!!props.toggle ? "16px" : "24px")}
+  min-width: ${props => (!!props.toggle ? "0px" : "200px")};
+  padding: 8px ${props => (!!props.toggle ? "16px" : "24px")};
   transition: all 0.5s;
   border-right: 3px solid white;
   ${props =>
@@ -47,24 +48,43 @@ const StyledLink = styled(Link)`
 
 const MenuIcon = styled(Icon)`
   display: inline-block;
-  margin-right: ${props => (!!props.toggle ? "0px" : "12px")}
+  margin-right: ${props => (!!props.toggle ? "0px" : "12px")};
   line-height: 32px !important;
 `;
 
 const MenuText = styled.span`
-  display: ${props => (!!props.toggle ? "none" : "inline-block")}
+  display: ${props => (!!props.toggle ? "none" : "inline-block")};
   line-height: 32px;
+  white-space: nowrap;
 `;
 
 const Menu = ({ text, path, active = "/", icon, toggle = false, onClick }) => {
   const isActive = active === text ? 1 : 0; // attribute give warning on boolean
   return (
-    <StyledLink to={path} active={isActive} toggle={toggle} onClick={() => onClick(text)}>
+    <StyledLink
+      to={path}
+      active={isActive}
+      toggle={toggle}
+      onClick={() => onClick(text)}
+    >
       <MenuIcon toggle={toggle} type={icon} />
       <MenuText toggle={toggle}>{text}</MenuText>
     </StyledLink>
   );
 };
+
+const MenuList = ({ items, toggle, active, onClick }) =>
+  items.map(item => (
+    <Menu
+      key={item.text}
+      text={item.text}
+      path={item.path}
+      icon={item.icon}
+      toggle={toggle}
+      active={active}
+      onClick={onClick}
+    />
+  ));
 
 export default ({ activeMenu, setActiveMenu, toggleSiderStatus }) => {
   const isToggled = toggleSiderStatus ? 1 : 0; // attribute give warning on boolean
@@ -75,35 +95,9 @@ export default ({ activeMenu, setActiveMenu, toggleSiderStatus }) => {
         <BrandText toggle={isToggled}>DU-Malaysia</BrandText>
       </Brand>
       <br />
-      <Menu
-        text="Dashboard"
-        path="/"
+      <MenuList
+        items={Menus}
         toggle={isToggled}
-        icon="dashboard"
-        active={activeMenu}
-        onClick={setActiveMenu}
-      />
-      <Menu
-        text="Guru"
-        path="/teacher"
-        toggle={isToggled}
-        icon="user"
-        active={activeMenu}
-        onClick={setActiveMenu}
-      />
-      <Menu
-        text="CLC"
-        path="/clc"
-        toggle={isToggled}
-        icon="bank"
-        active={activeMenu}
-        onClick={setActiveMenu}
-      />
-      <Menu
-        text="Pemasangan"
-        path="/assembly"
-        toggle={isToggled}
-        icon="bank"
         active={activeMenu}
         onClick={setActiveMenu}
       />

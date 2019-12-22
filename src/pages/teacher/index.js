@@ -2,17 +2,14 @@ import React from "react";
 import { Icon, Input, Card, Table, Button, message, Row, Col } from "antd";
 import { fetchAPI, mockTeachersResponse } from "../../utils/serviceAPI";
 import { exportToXLSX } from "../../utils/export";
-import { formatedTeachersColumn, formatTeachersForExport } from "./utils";
+import { formatedTeachersTableSource, formatTeachersForExport } from "./utils";
 import ModalTeacherForm from "./ModalTeacherForm";
-console.log("exportToXLSX", exportToXLSX);
 const { Search } = Input;
 
 const Teachers = props => {
   const [fetching, setFetching] = React.useState(false);
   const [teachers, setTeachers] = React.useState([]);
-  // const [filterActive, setFilterActive] = React.useState(true);
-  // const [filterValue, setFilterValue] = React.useState("");
-  const [editTeacherId, setEditTeacherId] = React.useState(null);
+  const [editTeacherById, setEditTeacherById] = React.useState(null);
   const [modalForm, setModalForm] = React.useState(false);
 
   const refreshTableData = () => {
@@ -34,8 +31,8 @@ const Teachers = props => {
   }, []);
 
   const onEdit = id => {
-    console.log(`set editTeacherId:${editTeacherId}`);
-    setEditTeacherId(id);
+    console.log(`set editTeacherById:${editTeacherById}`);
+    setEditTeacherById(id);
     setModalForm(true);
   };
 
@@ -45,13 +42,13 @@ const Teachers = props => {
 
   const closeModal = () => {
     setModalForm(false);
-    setEditTeacherId(null);
+    setEditTeacherById(null);
   };
 
   const openModal = () => {
     setModalForm(true);
   };
-  console.log("teachers", teachers);
+
   return (
     <Card style={{ minHeight: "70%" }}>
       <Row gutter={[16, 16]}>
@@ -60,21 +57,26 @@ const Teachers = props => {
             placeholder="Cari Guru"
             onSearch={value => {
               console.log(value);
-              // console.log(`filterValue ${filterValue}`);
-              // setFilterValue(value);
             }}
           />
         </Col>
         <Col xs={24} sm={12}>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <Button
-              onClick={() =>
-                exportToXLSX(formatTeachersForExport(teachers), "Rekap Guru")
-              }
+              onClick={() => {
+                setFetching(true);
+                message.loading("sedang mengunduh..", 1, () =>
+                  setFetching(false)
+                );
+                exportToXLSX(formatTeachersForExport(teachers), "Rekap Guru");
+              }}
+              loading={fetching}
+              disabled={!teachers.length}
               type="primary"
+              icon="download"
               style={{ marginRight: 16 }}
             >
-              <Icon type="file-excel" /> Unduh
+              Unduh
             </Button>
             <Button onClick={openModal} type="primary">
               <Icon type="plus" /> Guru
@@ -86,14 +88,8 @@ const Teachers = props => {
       <Table
         size="middle"
         loading={fetching}
-        // filtered={filterActive}
-        // filteredValue={filterValue}
-        // onChange={() => {
-        //   console.log(filterActive, filterValue);
-        //   refreshTableData();
-        // }}
         dataSource={teachers}
-        columns={formatedTeachersColumn(onEdit, onArchive)}
+        columns={formatedTeachersTableSource(onEdit, onArchive)}
         rowKey="id"
         style={{ overflowX: "scroll" }}
       />
@@ -101,12 +97,8 @@ const Teachers = props => {
       <ModalTeacherForm
         visible={modalForm}
         handleCloseModal={closeModal}
-        handleSubmitForm={() => {
-          closeModal();
-          refreshTableData();
-        }}
-        type={editTeacherId ? "edit" : "add"}
-        editTeacherId={editTeacherId}
+        handleSubmitForm={refreshTableData}
+        editTeacherById={editTeacherById}
       />
     </Card>
   );

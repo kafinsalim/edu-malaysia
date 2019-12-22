@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Breadcrumb, Icon } from "antd";
 import Sider from "./Sider";
 import Header from "./Header";
+import Menus from "./menuConfig";
 
 const WindowLayout = styled.div`
   display: flex;
@@ -25,26 +26,10 @@ const Container = styled.div`
   height: 100%;
 `;
 
-function getMenuName(path) {
-  switch (path) {
-    case "/":
-      return "Dashboard";
-    case "/teacher":
-      return "Guru";
-    case "/clc":
-      return "CLC";
-    case "/assembly":
-      return "Pemasangan";
-    default:
-      return "Dashboard";
-  }
-}
-
 const AppLayout = props => {
   const { layout, children, initialPath } = props;
   const initialToggleStatus = layout === "mobile-web" ? true : false;
-  // TODO: fix this ugly path
-  const initialMenu = getMenuName(initialPath);
+  const initialMenu = Menus.find(i => i.path === initialPath).text;
 
   const [activeMenu, setActiveMenu] = React.useState(initialMenu);
   const [toggleSiderStatus, setToggleSiderStatus] = React.useState(
@@ -95,7 +80,7 @@ const AppLayout = props => {
           </Breadcrumb>
           {children}
           <br />
-          <span style={{ float: "right" }}>Edu Malaysia - 2019</span>
+          <span style={{ float: "right" }}>Edu Malaysia v1.0.1- 2019</span>
         </Container>
       </Content>
     </WindowLayout>

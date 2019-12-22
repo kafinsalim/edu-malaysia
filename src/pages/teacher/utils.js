@@ -4,19 +4,11 @@ import moment from "moment";
 import "moment/locale/id";
 import { Popconfirm } from "antd";
 
-const formatedTeachersColumn = (onEdit, onArchive, filter = "") => {
+const formatedTeachersTableSource = (onEdit, onArchive, filter = "") => {
   return [
     {
       title: "Nama Lengkap",
       key: "nama_lengkap",
-      onFilter: (value, record) => {
-        console.log("onFilter", value, record);
-        return `+${record}`;
-      },
-      // record[dataIndex]
-      //   .toString()
-      //   .toLowerCase()
-      //   .includes(value.toLowerCase()),
       render: row => `${row.first_name} ${row.last_name}`
     },
     {
@@ -284,7 +276,7 @@ const mockTeachers = [
 const formatTeachersForExport = teachers =>
   teachers.map(item => {
     return {
-      "Nama Depan": `${item.first_name} ${item.last_name}`,
+      "Nama Lengkap": `${item.first_name} ${item.last_name}`,
       "Tempat Lahir": item.place_of_birth,
       "Tanggal Lahir": item.date_of_birth,
       "Jenis Kelamin": item.gender,
@@ -295,4 +287,4 @@ const formatTeachersForExport = teachers =>
     };
   });
 
-export { formatedTeachersColumn, formatTeachersForExport };
+export { formatedTeachersTableSource, formatTeachersForExport };

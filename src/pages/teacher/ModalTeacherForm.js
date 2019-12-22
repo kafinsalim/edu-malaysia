@@ -14,8 +14,8 @@ import {
   Col,
   Spin
 } from "antd";
-// import moment from "moment";
-// import "moment/locale/id";
+import moment from "moment";
+import "moment/locale/id";
 
 const Warning = styled.p`
   color: #bf1650;
@@ -31,19 +31,21 @@ export default function ModalTeacherForm(props) {
     visible,
     handleCloseModal,
     handleSubmitForm,
-    type,
-    editTeacherId
+    editTeacherById
   } = props;
   const [fetching, setFetching] = React.useState(false);
   const [formData, setFormData] = React.useState({});
   const { register, handleSubmit, watch, errors, setValue } = useForm();
-
+  console.log("ModalTeacherForm", props, formData);
   // const data containing render content
-  const ModalTitle = type === "edit" ? "Edit data Guru" : "Tambahkan data Guru";
+  const ModalTitle = !!editTeacherById
+    ? "Edit data Guru"
+    : "Tambahkan data Guru";
 
   React.useEffect(() => {
-    console.log(`effect editTeacherId:${editTeacherId}`);
+    console.log(`effect editTeacherById:${editTeacherById}`);
     function getTeacher(id) {
+      console.log(`getting Teacher by id ${id}`);
       setFetching(true);
       fetchAPI(`teacher/${id}`)
         .then(response => {
@@ -57,22 +59,23 @@ export default function ModalTeacherForm(props) {
           console.error(e);
         });
     }
-    if (editTeacherId) {
-      getTeacher(editTeacherId);
+    if (!!editTeacherById) {
+      getTeacher(editTeacherById);
     } else {
       setFormData({});
     }
-  }, [editTeacherId]);
+  }, [editTeacherById]);
 
   const onSubmit = async data => {
     // form submit function which will invoke after successful validation
     setFetching(true);
-    if (type === "add") {
+    if (!editTeacherById) {
       await axios
         .post(`${base_url}/teacher`, data)
         .then(function(response) {
           setFetching(false);
           handleSubmitForm();
+          handleCloseModal();
           message.success("Berhasil menyimpan data !");
           console.log("then", response);
         })
@@ -85,11 +88,17 @@ export default function ModalTeacherForm(props) {
     } else {
       // get id from state
       const { id } = formData;
+      console.log(`editing with id ${id}`);
+      if (!id) {
+        message.warning("terdapat masalah jaringan");
+        console.log(`problem but editTeacherById is ${editTeacherById}`);
+      }
       await axios
         .put(`${base_url}/teacher/${id}`, data)
         .then(function(response) {
           setFetching(false);
           handleSubmitForm();
+          handleCloseModal();
           message.success("Berhasil melakukan edit data!");
           console.log("then", response);
         })
@@ -100,20 +109,19 @@ export default function ModalTeacherForm(props) {
         });
       console.warn("submited edit ", data);
     }
+    // clear form after submit
+    document.getElementById("teacher").reset();
   };
 
   // you can watch individual input by pass the name of the input
-  console.log(watch(), errors);
-  // const default_date_of_birth = moment("2001-01-01T00:00:00Z")
-  //   .locale("id")
-  //   .format("LL");
+  // console.log(watch(), errors);
   const {
     first_name = "",
     last_name = "",
     place_of_birth = "",
-    date_of_birth = "2001-01-01",
+    date_of_birth = "",
     gender = "L",
-    religion = "-",
+    religion = "",
     university = "",
     major = "",
     year_of_dedication = ""
@@ -129,7 +137,7 @@ export default function ModalTeacherForm(props) {
       footer={null}
     >
       <Spin tip="Sedang Memuat..." spinning={fetching}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} id="teacher">
           <Row gutter={[4, 16]}>
             <Col xs={24} sm={8}>
               <label className="ant-form-item-required  has-feedback has-warning">
@@ -184,8 +192,9 @@ export default function ModalTeacherForm(props) {
             <Col xs={24} sm={16}>
               <DatePicker
                 onChange={e => {
-                  setValue("date_of_birth", e.locale("id").format("LL"));
+                  setValue("date_of_birth", e.format("YYYY-MM-DD"));
                 }}
+                defaultValue={moment(date_of_birth, "YYYY-MM-DD")}
                 style={{ width: "100%" }}
               />
               <input
@@ -202,20 +211,16 @@ export default function ModalTeacherForm(props) {
             </Col>
             <Col xs={24} sm={16}>
               <Select
-                defaultValue={gender}
                 onChange={e => {
                   setValue("gender", e);
                 }}
+                defaultActiveFirstOption={gender}
+                value={gender}
               >
                 <Select.Option value="L">Laki-laki</Select.Option>
                 <Select.Option value="P">Perempuan</Select.Option>
               </Select>
-              <input
-                type="hidden"
-                name="gender"
-                defaultValue={gender}
-                ref={register}
-              />
+              <input type="hidden" name="gender" ref={register} />
             </Col>
           </Row>
           <Row gutter={[4, 16]}>

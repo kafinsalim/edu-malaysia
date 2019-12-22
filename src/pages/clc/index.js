@@ -73,11 +73,20 @@ const Clc = props => {
             }}
           >
             <Button
-              onClick={() => exportToXLSX(clcs, "Rekap CLC")}
+              onClick={() => {
+                setFetching(true);
+                message.loading("sedang mengunduh..", 1, () =>
+                  setFetching(false)
+                );
+                exportToXLSX(clcs, "Rekap CLC");
+              }}
+              loading={fetching}
+              disabled={!clcs.length}
               type="primary"
+              icon="download"
               style={{ marginRight: 16 }}
             >
-              <Icon type="file-excel" /> Unduh
+              Unduh
             </Button>
             <Button onClick={openModal} type="primary">
               <Icon type="plus" /> CLC

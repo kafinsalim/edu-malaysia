@@ -34,9 +34,10 @@ export default ({ onSiderToggleClick, toggleSiderStatus }) => (
     </ToggleSiderButton>
     <b>EDU MALAYSIA</b>
     <RightIcons>
+      <Icon type="user" size="lg" style={{ padding: "8px 4px 8px 8px" }} />
+      <span style={{ padding: "8px 8px 8px 0px" }}>Admin</span>
       <Icon type="bell" size="lg" style={{ padding: 8 }} />
-      <Icon type="user" size="lg" style={{ padding: 8 }} />
-      <Icon type="fullscreen" size="lg" style={{ padding: 8 }} />
+      <Icon type="logout" size="lg" style={{ padding: 8 }} />
     </RightIcons>
   </HeaderContainer>
 );

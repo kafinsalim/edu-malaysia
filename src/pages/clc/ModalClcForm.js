@@ -2,7 +2,7 @@ import React from "react";
 import useForm from "react-hook-form";
 import axios from "axios";
 import styled from "styled-components";
-import { BASE_URL, fetchAPI } from "../../utils/serviceAPI";
+import { BASE_URL, fetchAPI } from "../../utils";
 import { Modal, Select, message, Row, Col, Spin } from "antd";
 // import moment from "moment";
 import "moment/locale/id";

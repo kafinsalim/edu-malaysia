@@ -18,6 +18,7 @@ class FormTeacher extends React.Component {
     const { form, onSubmit } = this.props;
     form.validateFields((error, values) => {
       if (!error) {
+        values.date_of_birth = moment(values.date_of_birth).format("YYYY-MM-DD");
         onSubmit(values);
         form.resetFields();
       }

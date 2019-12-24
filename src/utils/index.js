@@ -1,6 +1,7 @@
 import axios from "axios";
 import exportToXLSX from "./export";
-import { BASE_URL, fetchAPI } from "./serviceAPI";
+
+// STRING SANITATION
 
 const capitalizeFirstLetter = string =>
   typeof string === "string"
@@ -43,6 +44,12 @@ const capitalizeFirstLetterStringInObject = data => {
   return result;
 };
 
+// CLIENT API SERVICE
+
+const BASE_URL = "https://app-13a41883-30f6-425f-b5f7-7264fc31a1e7.cleverapps.io";
+
+const fetchAPI = async endpoint => await axios.get(`${BASE_URL}/${endpoint}`); // generic fetch api
+
 const reqTeacher = {
   // TODO: make all format fix, return response status or nagh ? but i have to handle strings
   getAllTeachers: async filter => {
@@ -64,11 +71,34 @@ const reqTeacher = {
   deleteTeacher: async id => await axios.post(`${BASE_URL}/teacher/${id}`)
 };
 
+const reqCLC = {
+  // TODO: make all format fix, return response status or nagh ? but i have to handle strings
+  getAllCLCs: async filter => {
+    let endpoint = `${BASE_URL}/clcs`;
+    if (filter) endpoint += `?search=${filter}`;
+    console.log("getAllCLCs", endpoint);
+    return await axios
+      .get(endpoint)
+      .then(response => response.data.map(i => capitalizeFirstLetterStringInObject(i)));
+  },
+  getCLCById: async id =>
+    await axios
+      .get(`${BASE_URL}/clc/${id}`)
+      .then(response => capitalizeFirstLetterStringInObject(response.data)),
+  addCLC: async payload =>
+    await axios.post(`${BASE_URL}/clc`, lowerCaseStringInObject(payload)),
+  updateCLC: async (id, payload) =>
+    await axios.put(`${BASE_URL}/clc/${id}`, lowerCaseStringInObject(payload)),
+  deleteCLC: async id => await axios.post(`${BASE_URL}/clc/${id}`)
+};
+
 export {
+  BASE_URL,
   fetchAPI,
   exportToXLSX,
   capitalizeFirstLetter,
   lowerCaseStringInObject,
   capitalizeFirstLetterStringInObject,
-  reqTeacher
+  reqTeacher,
+  reqCLC
 };

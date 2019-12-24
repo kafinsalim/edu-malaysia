@@ -33,9 +33,7 @@ const AppLayout = props => {
   const initialMenu = Menus.find(i => i.path === initialPath).text;
 
   const [activeMenu, setActiveMenu] = React.useState(initialMenu);
-  const [toggleSiderStatus, setToggleSiderStatus] = React.useState(
-    initialToggleStatus
-  );
+  const [toggleSiderStatus, setToggleSiderStatus] = React.useState(initialToggleStatus);
 
   const handleSiderToggle = () => {
     // const toggleValue = toggleSiderStatus ? 0 : 1; // convert to binary
@@ -81,7 +79,7 @@ const AppLayout = props => {
           </Breadcrumb>
           {children}
           <br />
-          <span style={{ float: "right" }}>Edu Malaysia v1.0.1- 2019</span>
+          <span style={{ float: "right" }}>Edu Malaysia v1.0.2- 2019</span>
         </Container>
       </Content>
     </WindowLayout>

@@ -2,8 +2,8 @@ import React from "react";
 import useForm from "react-hook-form";
 import axios from "axios";
 import styled from "styled-components";
-import { base_url, fetchAPI } from "../../utils/serviceAPI";
-import { Modal, Select, DatePicker, message, Row, Col, Spin } from "antd";
+import { BASE_URL, fetchAPI } from "../../utils/serviceAPI";
+import { Modal, Select, message, Row, Col, Spin } from "antd";
 // import moment from "moment";
 import "moment/locale/id";
 
@@ -17,13 +17,7 @@ const Warning = styled.p`
 `;
 
 export default function ModalClcForm(props) {
-  const {
-    visible,
-    handleCloseModal,
-    handleSubmitForm,
-    type,
-    editClcId
-  } = props;
+  const { visible, handleCloseModal, handleSubmitForm, type, editClcId } = props;
   const [fetching, setFetching] = React.useState(false);
   const [formData, setFormData] = React.useState({});
   const { register, handleSubmit, watch, errors, setValue } = useForm();
@@ -34,6 +28,10 @@ export default function ModalClcForm(props) {
   React.useEffect(() => {
     console.log(`effect editClcId:${editClcId}`);
     function getClc(id) {
+      if (!!id) {
+        setFormData({});
+        return;
+      }
       setFetching(true);
       fetchAPI(`clc/${id}`)
         .then(response => {
@@ -47,11 +45,8 @@ export default function ModalClcForm(props) {
           console.error(e);
         });
     }
-    if (editClcId) {
-      getClc(editClcId);
-    } else {
-      setFormData({});
-    }
+
+    getClc(editClcId);
   }, [editClcId]);
 
   const onSubmit = async data => {
@@ -59,7 +54,7 @@ export default function ModalClcForm(props) {
     setFetching(true);
     if (type === "add") {
       await axios
-        .post(`${base_url}/clc`, data)
+        .post(`${BASE_URL}/clc`, data)
         .then(function(response) {
           setFetching(false);
           handleSubmitForm();
@@ -76,7 +71,7 @@ export default function ModalClcForm(props) {
       // get id from state
       const { id } = formData;
       await axios
-        .put(`${base_url}/clc/${id}`, data)
+        .put(`${BASE_URL}/clc/${id}`, data)
         .then(function(response) {
           setFetching(false);
           handleSubmitForm();
@@ -100,9 +95,9 @@ export default function ModalClcForm(props) {
   const {
     name = "",
     clc_level = "",
-    status = "",
+    // status = "",
     ladang = "",
-    gugus = "2001-01-01",
+    // gugus = "2001-01-01",
     lat = "",
     long = "",
     note = ""
@@ -196,12 +191,7 @@ export default function ModalClcForm(props) {
                 <Select.Option value="ladang">Ladang</Select.Option>
                 <Select.Option value="non_ladang">Non Ladang</Select.Option>
               </Select>
-              <input
-                type="hidden"
-                name="ladang"
-                defaultValue={ladang}
-                ref={register}
-              />
+              <input type="hidden" name="ladang" defaultValue={ladang} ref={register} />
             </Col>
           </Row>
           <Row gutter={[4, 16]}>
@@ -223,12 +213,7 @@ export default function ModalClcForm(props) {
               <label className="ant-form-item-required">Koordinat</label>
             </Col>
             <Col xs={12} sm={8}>
-              <input
-                className="ant-input"
-                name="lat"
-                defaultValue={lat}
-                ref={register}
-              />
+              <input className="ant-input" name="lat" defaultValue={lat} ref={register} />
             </Col>
             <Col xs={12} sm={8}>
               <input
@@ -250,9 +235,6 @@ export default function ModalClcForm(props) {
                 defaultValue={note}
                 ref={register({ required: true })}
               />
-              {!!errors.note && (
-                <Warning>Mohon mengisi asal universitas</Warning>
-              )}
             </Col>
           </Row>
           <Row>

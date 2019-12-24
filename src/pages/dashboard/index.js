@@ -59,22 +59,13 @@ const Dashboard = () => (
     </Row>
     <br />
     <Card style={{ minHeight: "60%" }}>
-      <h2>This is a Dashboard Page</h2>
+      <h2>Selamat Datang di Halaman Dashboard</h2>
       <p>
-        welcome to dashboard page, put some of your content summary here because
-        everyone logged in to this web will see this page first.
+        Halaman ini bermanfaat untuk menyimpan informasi yang perlu perhatian
+        khusus ataupun informasi yang rangkuman dari keseluruhan data. Halaman
+        ini adalah halaman awal yang akan diakses semua pengguna.
       </p>
-      <p>content on development:</p>
-      <ul>
-        <li>CLCs page</li>
-        <li>Teachers page</li>
-      </ul>
-      <p>
-        Please kindly give some feedback for this application. Thank you{" "}
-        <span role="img" aria-label="emoji">
-          ❤️
-        </span>
-      </p>
+      <p>Halaman ini masih dalam pengembangan</p>
     </Card>
   </>
 );

@@ -27,6 +27,7 @@ const Container = styled.div`
 `;
 
 const AppLayout = props => {
+  console.log("AppLayout props", props);
   const { layout, children, initialPath } = props;
   const initialToggleStatus = layout === "mobile-web" ? true : false;
   const initialMenu = Menus.find(i => i.path === initialPath).text;

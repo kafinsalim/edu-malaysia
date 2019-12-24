@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import moment from "moment";
-import "moment/locale/id";
+import axios from "axios";
+import { BASE_URL } from "../../utils/serviceAPI";
 import { Popconfirm } from "antd";
 
 const formatedTeachersTableSource = (onEdit, onArchive, filter = "") => {

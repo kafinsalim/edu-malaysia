@@ -1,16 +1,36 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-// import { StoreProvider, createStore } from "easy-peasy";
 import AppLayout from "../AppLayout";
 import Dashboard from "../../pages/dashboard";
 import Teachers from "../../pages/teacher";
 import Clc from "../../pages/clc";
-import Login from "../../pages/login";
+// import Login from "../../pages/login";
 import Error404 from "../../pages/error";
 
 // set dynamic config based on initial client side state
 const device = window && window.innerWidth < 960 ? "mobile-web" : "web";
 const path = window.location.pathname;
+
+// const fakeAuth = {
+//   isAuthenticated: false,
+//   authenticate(cb) {
+//     this.isAuthenticated = true;
+//     setTimeout(cb, 100);
+//   },
+//   signout(cb) {
+//     this.isAuthenticated = false;
+//     setTimeout(cb, 100);
+//   }
+// };
+
+// const AuthSwitch = props => {
+//   const { fakeAuth = false, children = "" } = props;
+//   return (
+//     <Switch>
+//       {fakeAuth.isAuthenticated ? children : <Redirect to="/login" />}
+//     </Switch>
+//   );
+// };
 
 export default function() {
   return (

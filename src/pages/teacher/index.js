@@ -1,22 +1,24 @@
 import React from "react";
 import { Icon, Input, Card, Table, Button, message, Row, Col } from "antd";
-import { fetchAPI, mockTeachersResponse } from "../../utils/serviceAPI";
-import { exportToXLSX } from "../../utils/export";
 import { formatedTeachersTableSource, formatTeachersForExport } from "./utils";
+import { exportToXLSX, reqTeacher } from "../../utils";
 import ModalTeacherForm from "./ModalTeacherForm";
 const { Search } = Input;
 
 const Teachers = props => {
   const [fetching, setFetching] = React.useState(false);
   const [teachers, setTeachers] = React.useState([]);
-  const [editTeacherById, setEditTeacherById] = React.useState(null);
+  const [filter, setFilter] = React.useState(false);
+  const [teacherId, setTeacherId] = React.useState(null);
   const [modalForm, setModalForm] = React.useState(false);
 
   const refreshTableData = () => {
+    console.log("refresh table data");
     setFetching(true);
-    fetchAPI("teachers?sort=first_name")
+    reqTeacher
+      .getAllTeachers(filter)
       .then(response => {
-        setTeachers(response.data);
+        setTeachers(response);
         setFetching(false);
       })
       .catch(e => {
@@ -30,19 +32,41 @@ const Teachers = props => {
     refreshTableData();
   }, []);
 
+  React.useEffect(() => {
+    console.log("useEffect by filter", filter);
+    refreshTableData();
+  }, [filter]);
+
   const onEdit = id => {
-    console.log(`set editTeacherById:${editTeacherById}`);
-    setEditTeacherById(id);
+    console.log(`onEdit()`);
+    console.log(`set teacherId:${teacherId}`);
+    setTeacherId(id);
     setModalForm(true);
   };
 
-  const onArchive = () => {
-    message.success("Berhasil diarsipkan, namun fitur dalam pengembangan");
+  const onArchive = id => {
+    console.log(`onArchive()`);
+    reqTeacher
+      .deleteTeacher(id)
+      .then(response => {
+        message.success("Berhasil mengarsipkan");
+        refreshTableData();
+        console.log(response);
+      })
+      .catch(error => {
+        message.error("Gagal mengarsipkan");
+        console.log(error);
+      });
   };
 
-  const closeModal = () => {
+  const handleCloseModal = () => {
+    console.log("closing modal");
+    setTeacherId(null);
     setModalForm(false);
-    setEditTeacherById(null);
+  };
+
+  const handleSuccessSubmitForm = () => {
+    refreshTableData();
   };
 
   const openModal = () => {
@@ -56,7 +80,8 @@ const Teachers = props => {
           <Search
             placeholder="Cari Guru"
             onSearch={value => {
-              console.log(value);
+              console.log(value.trim());
+              setFilter(value.trim());
             }}
           />
         </Col>
@@ -65,9 +90,7 @@ const Teachers = props => {
             <Button
               onClick={() => {
                 setFetching(true);
-                message.loading("sedang mengunduh..", 1, () =>
-                  setFetching(false)
-                );
+                message.loading("sedang mengunduh..", 1, () => setFetching(false));
                 exportToXLSX(formatTeachersForExport(teachers), "Rekap Guru");
               }}
               loading={fetching}
@@ -93,12 +116,11 @@ const Teachers = props => {
         rowKey="id"
         style={{ overflowX: "scroll" }}
       />
-
       <ModalTeacherForm
         visible={modalForm}
-        handleCloseModal={closeModal}
-        handleSubmitForm={refreshTableData}
-        editTeacherById={editTeacherById}
+        onClose={handleCloseModal}
+        onSubmit={handleSuccessSubmitForm}
+        teacherId={teacherId}
       />
     </Card>
   );

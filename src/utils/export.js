@@ -3,7 +3,7 @@ import * as XLSX from "xlsx";
 import moment from "moment";
 import "moment/locale/id";
 
-export const exportToXLSX = (csvData, fileName) => {
+export default (csvData, fileName) => {
   const fileType =
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
   const fileExtension = ".xlsx";

@@ -20,7 +20,7 @@ class FormTeacher extends React.Component {
       if (!error) {
         values.date_of_birth = moment(values.date_of_birth).format("YYYY-MM-DD");
         onSubmit(values);
-        form.resetFields();
+        form.resetFields("form_teacher");
       }
     });
   };
@@ -29,7 +29,7 @@ class FormTeacher extends React.Component {
     const { data, form } = this.props;
     console.log("formteacher props", this.props);
     if (data && data.id) {
-      console.log("mampus ajig", data);
+      console.log("hit to setValue", data);
       delete data.id;
       delete data.created_at;
       delete data.updated_at;

@@ -32,7 +32,6 @@ export default function ModalTeacherForm(props) {
     if (teacherId) {
       getTeacher(teacherId);
     } else {
-      console.log("set null data {} anjing");
       setFormData({});
     }
   }, [teacherId]);

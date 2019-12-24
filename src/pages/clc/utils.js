@@ -1,10 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import moment from "moment";
-import "moment/locale/id";
 import { Popconfirm, Icon } from "antd";
 
-const formatedClcsColumn = (onEdit, onArchive, filter = "") => {
+const formatedCLCsTableSource = (onEdit, onArchive) => {
   return [
     {
       title: "Nama CLC",
@@ -28,7 +26,7 @@ const formatedClcsColumn = (onEdit, onArchive, filter = "") => {
       key: "kelas",
       render: row =>
         row.student_per_class.map(i => (
-          <span style={{ whiteSpace: "nowrap" }}>
+          <span key={i.class_level} style={{ whiteSpace: "nowrap" }}>
             Kelas {i.class_level}
             <br />
           </span>
@@ -39,9 +37,9 @@ const formatedClcsColumn = (onEdit, onArchive, filter = "") => {
       dataIndex: "clc_level_data_support",
       key: "siswa",
       render: row =>
-        row.student_per_class.map(i => (
-          <span>
-            {i.total_class_student}
+        row.student_per_class.map((item, index) => (
+          <span key={index}>
+            {item.total_class_student}
             <br />
           </span>
         ))
@@ -52,35 +50,6 @@ const formatedClcsColumn = (onEdit, onArchive, filter = "") => {
       key: "total_siswa",
       render: row => row.total_student_per_clc
     },
-    // (clc_level_data_support: {
-    //   total_student_per_clc: 1140,
-    //   student_per_class: [
-    //     {
-    //       class_level: 1,
-    //       total_class_student: 111
-    //     },
-    //     {
-    //       class_level: 2,
-    //       total_class_student: 112
-    //     },
-    //     {
-    //       class_level: 3,
-    //       total_class_student: 223
-    //     },
-    //     {
-    //       class_level: 4,
-    //       total_class_student: 114
-    //     },
-    //     {
-    //       class_level: 5,
-    //       total_class_student: 115
-    //     },
-    //     {
-    //       class_level: 6,
-    //       total_class_student: 116
-    //     }
-    //   ]
-    // }),
     {
       title: "Status",
       dataIndex: "status",
@@ -95,11 +64,7 @@ const formatedClcsColumn = (onEdit, onArchive, filter = "") => {
       title: "Koordinat",
       dataIndex: "coordinate",
       key: "coordinate",
-      render: row => (
-        <span>{`${row.lat
-          .toString()
-          .substr(0, 4)}, ${row.long.toString().substr(0, 4)}`}</span>
-      )
+      render: row => <span>{`${row.lat}, ${row.long}`}</span>
     },
     {
       title: "Catatan",
@@ -116,7 +81,6 @@ const formatedClcsColumn = (onEdit, onArchive, filter = "") => {
           <Popconfirm
             title="Apakah anda yakin mengarsipkan data ini?"
             onConfirm={() => onArchive(row.id)}
-            // onCancel={cancel}
             okText="Ya"
             cancelText="Tidak"
             placement="left"
@@ -129,4 +93,20 @@ const formatedClcsColumn = (onEdit, onArchive, filter = "") => {
   ];
 };
 
-export { formatedClcsColumn };
+const formatCLCsForExport = CLCs =>
+  CLCs.map(item => {
+    console.log("export clc", item);
+    return true;
+    //   return {
+    //     "Nama Lengkap": `${item.first_name} ${item.last_name}`,
+    //     "Tempat Lahir": item.place_of_birth,
+    //     "Tanggal Lahir": item.date_of_birth,
+    //     "Jenis Kelamin": item.gender,
+    //     Agama: item.religion,
+    //     "Asal Universitas": item.university,
+    //     Jurusan: item.major,
+    //     "Angkatan Tahapan": item.year_of_dedication
+    //   };
+  });
+
+export { formatedCLCsTableSource, formatCLCsForExport };

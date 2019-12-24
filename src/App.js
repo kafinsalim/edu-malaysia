@@ -1,5 +1,6 @@
-import React from "react";
+// import React from "react";
 import AppRouter from "./commons/AppRouter";
+import "moment/locale/id";
 import "./App.css";
 
 // function App() {

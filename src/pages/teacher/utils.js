@@ -60,7 +60,6 @@ const formatedTeachersTableSource = (onEdit, onArchive) => {
           <Popconfirm
             title="Apakah anda yakin mengarsipkan data ini?"
             onConfirm={() => onArchive(row.id)}
-            // onCancel={cancel}
             okText="Ya"
             cancelText="Tidak"
             placement="left"

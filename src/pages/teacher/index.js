@@ -60,6 +60,7 @@ const Teachers = props => {
   };
 
   const handleCloseModal = () => {
+    // if()
     console.log("closing modal");
     setTeacherId(null);
     setModalForm(false);
@@ -121,6 +122,7 @@ const Teachers = props => {
         onClose={handleCloseModal}
         onSubmit={handleSuccessSubmitForm}
         teacherId={teacherId}
+        // selectedTeacherData={selectedTeacherData}
       />
     </Card>
   );

@@ -61,11 +61,11 @@ const Dashboard = () => (
     <Card style={{ minHeight: "60%" }}>
       <h2>Selamat Datang di Halaman Dashboard</h2>
       <p>
-        Halaman ini bermanfaat untuk menyimpan informasi yang perlu perhatian
-        khusus ataupun informasi yang rangkuman dari keseluruhan data. Halaman
-        ini adalah halaman awal yang akan diakses semua pengguna.
+        Halaman ini bermanfaat untuk menyimpan informasi yang perlu perhatian khusus
+        ataupun informasi yang perlu sorotan khusus dari keseluruhan data. Halaman ini
+        adalah halaman awal yang akan diakses semua pengguna.
       </p>
-      <p>Halaman ini masih dalam pengembangan</p>
+      <p>Halaman ini masih dalam tahap pengembangan.</p>
     </Card>
   </>
 );

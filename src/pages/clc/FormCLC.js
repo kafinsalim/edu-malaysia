@@ -53,7 +53,8 @@ class FormCLC extends React.Component {
             style={{
               display: "inline-block",
               width: "31%",
-              padding: "auto 2%",
+              paddingLeft: "1.5%",
+              paddingRight: "1.5%",
               marginBottom: 8
             }}
           >
@@ -94,7 +95,8 @@ class FormCLC extends React.Component {
             style={{
               display: "inline-block",
               width: "31%",
-              padding: "auto 2%",
+              paddingLeft: "1.5%",
+              paddingRight: "1.5%",
               marginBottom: 8
             }}
           >
@@ -130,7 +132,8 @@ class FormCLC extends React.Component {
             style={{
               display: "inline-block",
               width: "31%",
-              padding: "auto 2%",
+              paddingLeft: "1.5%",
+              paddingRight: "1.5%",
               marginBottom: 8
             }}
           >

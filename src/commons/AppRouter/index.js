@@ -6,6 +6,7 @@ import Teachers from "../../pages/teacher";
 import Clc from "../../pages/clc";
 // import Login from "../../pages/login";
 import Error404 from "../../pages/error";
+import Assembly from "../../pages/assembly";
 
 // set dynamic config based on initial client side state
 const device = window && window.innerWidth < 960 ? "mobile-web" : "web";
@@ -41,6 +42,7 @@ export default function() {
             <Route exact path="/" component={Dashboard} />
             <Route path="/teacher" component={Teachers} />
             <Route path="/clc" component={Clc} />
+            <Route path="/assembly" component={Assembly} />
             {/* <Route path="/login" component={Login} /> */}
             <Route component={Error404} />
           </Switch>

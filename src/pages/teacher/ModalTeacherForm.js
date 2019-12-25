@@ -7,6 +7,7 @@ export default function ModalTeacherForm(props) {
   const { visible, onClose, onSubmit, teacherId } = props;
   const [fetching, setFetching] = React.useState(false);
   const [formData, setFormData] = React.useState({});
+  const [isEditing, setIsEditing] = React.useState(false);
   // const data containing render content
   const ModalTitle = !!teacherId ? "Edit data Guru" : "Tambahkan data Guru";
 
@@ -92,7 +93,9 @@ export default function ModalTeacherForm(props) {
       footer={null}
     >
       <Spin tip="Sedang Memuat..." spinning={fetching}>
-        <FormTeacher data={formData} onSubmit={handleSubmit} />
+        {visible && ( // trigger componentDidMount
+          <FormTeacher data={formData} onSubmit={handleSubmit} isEdit={!!teacherId} />
+        )}
       </Spin>
     </Modal>
   );

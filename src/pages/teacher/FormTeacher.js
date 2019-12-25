@@ -13,6 +13,16 @@ class FormTeacher extends React.Component {
     };
   }
 
+  componentWillUnmount() {
+    const { form } = this.props;
+    form.resetFields("form_teacher");
+    console.log("I AM Will DEad, reset yea");
+  }
+
+  componentDidMount() {
+    console.log("I AM ALIVE");
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     const { form, onSubmit } = this.props;
@@ -20,13 +30,12 @@ class FormTeacher extends React.Component {
       if (!error) {
         values.date_of_birth = moment(values.date_of_birth).format("YYYY-MM-DD");
         onSubmit(values);
-        form.resetFields("form_teacher");
       }
     });
   };
 
   render() {
-    const { data, form } = this.props;
+    const { data, form, isEdit } = this.props;
     console.log("formteacher props", this.props);
     if (data && data.id) {
       console.log("hit to setValue", data);
@@ -35,7 +44,11 @@ class FormTeacher extends React.Component {
       delete data.updated_at;
       data.date_of_birth = moment(data.date_of_birth, "YYYY-MM-DD");
       form.setFieldsInitialValue(data);
+    } else {
+      console.log("no data && data.id");
+      form.resetFields("form_teacher");
     }
+    // if
     const { getFieldDecorator } = form;
     const formItemLayout = {
       labelCol: { span: 8 },
@@ -81,7 +94,7 @@ class FormTeacher extends React.Component {
             ]
           })(
             <DatePicker
-              placeholder="Silahkan pilih tanggal lahir"
+              placeholder="YYYY-MM-DD"
               style={{ width: "100%" }}
               showToday={false}
             />

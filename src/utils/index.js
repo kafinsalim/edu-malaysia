@@ -92,6 +92,27 @@ const reqCLC = {
   deleteCLC: async id => await axios.post(`${BASE_URL}/clc/${id}`)
 };
 
+const reqAssembly = {
+  // TODO: make all format fix, return response status or nagh ? but i have to handle strings
+  getAllAssemblys: async filter => {
+    let endpoint = `${BASE_URL}/clcs`;
+    if (filter) endpoint += `?search=${filter}`;
+    console.log("getAllAssemblys", endpoint);
+    return await axios
+      .get(endpoint)
+      .then(response => response.data.map(i => capitalizeFirstLetterStringInObject(i)));
+  },
+  getAssemblyById: async id =>
+    await axios
+      .get(`${BASE_URL}/clc/${id}`)
+      .then(response => capitalizeFirstLetterStringInObject(response.data)),
+  addAssembly: async payload =>
+    await axios.post(`${BASE_URL}/clc`, lowerCaseStringInObject(payload)),
+  updateAssembly: async (id, payload) =>
+    await axios.put(`${BASE_URL}/clc/${id}`, lowerCaseStringInObject(payload)),
+  deleteAssembly: async id => await axios.post(`${BASE_URL}/clc/${id}`)
+};
+
 export {
   BASE_URL,
   fetchAPI,
@@ -100,5 +121,6 @@ export {
   lowerCaseStringInObject,
   capitalizeFirstLetterStringInObject,
   reqTeacher,
-  reqCLC
+  reqCLC,
+  reqAssembly
 };

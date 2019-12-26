@@ -162,7 +162,7 @@ const Assembly = props => {
               Unduh
             </Button>
             <Button onClick={openModal} type="primary">
-              <Icon type="plus" /> Guru
+              <Icon type="plus" /> Daftarkan Guru
             </Button>
           </div>
         </Col>

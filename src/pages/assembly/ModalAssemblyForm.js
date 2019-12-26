@@ -1,22 +1,23 @@
 import React from "react";
-import { reqCLC } from "../../utils";
+import { reqAssembly } from "../../utils";
 import { Modal, Spin, message } from "antd";
-import FormCLC from "./FormCLC";
+import FormAssembly from "./FormAssembly";
 
-export default function ModalCLCForm(props) {
-  const { visible, onClose, onSubmit, CLCId } = props;
+export default function ModalAssemblyForm(props) {
+  const { visible, onClose, onSubmit, assemblyId } = props;
   const [fetching, setFetching] = React.useState(false);
   const [formData, setFormData] = React.useState({});
+  const [isEditing, setIsEditing] = React.useState(false);
   // const data containing render content
-  const ModalTitle = !!CLCId ? "Edit data CLC" : "Tambahkan data CLC";
+  const ModalTitle = !!assemblyId ? "Edit data Guru" : "Tambahkan data Guru";
 
   React.useEffect(() => {
-    console.log(`effect CLCId:${CLCId}`);
-    function getCLC(id) {
-      console.log(`getCLC by id ${id}`);
+    console.log(`effect assemblyId:${assemblyId}`);
+    function getAssembly(id) {
+      console.log(`getAssembly by id ${id}`);
       setFetching(true);
-      reqCLC
-        .getCLCById(id)
+      reqAssembly
+        .getAssemblyById(id)
         .then(response => {
           console.log("NGE THEN GETTEACHER BYID");
           setFormData(response);
@@ -29,19 +30,19 @@ export default function ModalCLCForm(props) {
           console.error(e);
         });
     }
-    if (CLCId) {
-      getCLC(CLCId);
+    if (assemblyId) {
+      getAssembly(assemblyId);
     } else {
       setFormData({});
     }
-  }, [CLCId]);
+  }, [assemblyId]);
 
   const handleSubmit = data => {
     // form submit function which will invoke after successful validation
     setFetching(true);
-    if (!CLCId) {
+    if (!assemblyId) {
       try {
-        reqCLC.addCLC(data).then(response => {
+        reqAssembly.addAssembly(data).then(response => {
           if (response.status === 200) {
             setFetching(false);
             onSubmit();
@@ -60,8 +61,8 @@ export default function ModalCLCForm(props) {
       console.log("submited add ", data);
     } else {
       try {
-        console.log(`editing with CLCId ${CLCId}`);
-        reqCLC.updateCLC(CLCId, data).then(response => {
+        console.log(`editing with assemblyId ${assemblyId}`);
+        reqAssembly.updateAssembly(assemblyId, data).then(response => {
           if (response.status === 200) {
             setFetching(false);
             onSubmit();
@@ -86,13 +87,15 @@ export default function ModalCLCForm(props) {
   return (
     <Modal
       title={ModalTitle}
-      style={{ top: 32, width: "80%" }}
+      style={{ top: 32 }}
       visible={visible}
       onCancel={onClose}
       footer={null}
     >
       <Spin tip="Sedang Memuat..." spinning={fetching}>
-        <FormCLC data={formData} onSubmit={handleSubmit} />
+        {visible && ( // trigger componentDidMount
+          <FormAssembly data={formData} onSubmit={handleSubmit} isEdit={!!assemblyId} />
+        )}
       </Spin>
     </Modal>
   );

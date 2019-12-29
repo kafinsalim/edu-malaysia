@@ -1,6 +1,5 @@
 import React from "react";
-import { Form, Select, Button, Input, Upload, Icon, Affix } from "antd";
-import moment from "moment";
+import { Form, Select, Button, Input, Upload, Icon, Alert } from "antd";
 
 const { Option } = Select;
 
@@ -12,6 +11,11 @@ class FormCLC extends React.Component {
       clcId: null,
       clcLevelSelected: "clc_smp"
     };
+  }
+
+  componentWillUnmount() {
+    const { form } = this.props;
+    form.resetFields("form_clc");
   }
 
   handleSubmit = e => {
@@ -200,7 +204,7 @@ class FormCLC extends React.Component {
     return e && e.fileList;
   };
 
-  componentDidUpdate() {
+  componentDidUpdate = () => {
     const { data, form } = this.props;
     console.log("formclc props", this.props);
     if (data && data.id) {
@@ -225,7 +229,7 @@ class FormCLC extends React.Component {
       data.lat = lat;
       data.long = long;
       delete data.coordinate;
-      if (clc_level === "clc_smp") {
+      if (data.clc_level === "clc_smp") {
         this.setState({ clcLevelSelected: "clc_smp" }, () =>
           form.setFieldsInitialValue(data)
         );
@@ -234,8 +238,11 @@ class FormCLC extends React.Component {
           form.setFieldsInitialValue(data)
         );
       }
+      console.log(`clcLevelSelected: ${this.state.clcLevelSelected}`);
+    } else {
+      form.resetFields("form_teacher");
     }
-  }
+  };
 
   render() {
     const { data, form } = this.props;
@@ -258,6 +265,14 @@ class FormCLC extends React.Component {
     };
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+        {!!data.errorMessage && (
+          <Alert
+            type="error"
+            message={data.errorMessage}
+            banner
+            style={{ marginBottom: 16 }}
+          />
+        )}
         <Form.Item label="Nama CLC" hasFeedback>
           {getFieldDecorator("name", {
             rules: [{ required: true, message: "Mohon isi nama CLC!" }]
@@ -289,8 +304,7 @@ class FormCLC extends React.Component {
             rules: [{ required: true, message: "Mohon pilih gugus!" }]
           })(
             <Select placeholder="Pilih gugus">
-              {/* di backend error kalo pilih ini
-               <Option value="i">I</Option>
+              <Option value="i">I</Option>
               <Option value="ii">II</Option>
               <Option value="iii">III</Option>
               <Option value="iv">IV</Option>
@@ -303,7 +317,7 @@ class FormCLC extends React.Component {
               <Option value="xi">XI</Option>
               <Option value="xii">XII</Option>
               <Option value="xiii">XIII</Option>
-              <Option value="xiv">XIV</Option> */}
+              <Option value="xiv">XIV</Option>
               <Option value="sarawak">SARAWAK</Option>
             </Select>
           )}

@@ -42,17 +42,25 @@ export default function ModalTeacherForm(props) {
     setFetching(true);
     if (!teacherId) {
       try {
-        reqTeacher.addTeacher(data).then(response => {
-          if (response.status === 200) {
+        reqTeacher
+          .addTeacher(data)
+          .then(response => {
+            if (response.status === 200) {
+              setFetching(false);
+              onSubmit();
+              onClose();
+              message.success("Berhasil menyimpan data");
+            } else {
+              setFetching(false);
+              message.warning("terdapat kesalahan, mohon ulangi tindakan");
+            }
+          })
+          .catch(error => {
             setFetching(false);
-            onSubmit();
-            onClose();
-            message.success("Berhasil menyimpan data");
-          } else {
-            setFetching(false);
-            message.warning("terdapat kesalahan, mohon ulangi tindakan");
-          }
-        });
+            message.warning("terdapat kesalahan");
+            if (error.message) setFormData({ ...formData, errorMessage: error.message });
+            console.log("catch", error);
+          });
       } catch (error) {
         setFetching(false);
         message.warning("terdapat masalah jaringan");
@@ -93,9 +101,7 @@ export default function ModalTeacherForm(props) {
       footer={null}
     >
       <Spin tip="Sedang Memuat..." spinning={fetching}>
-        {visible && ( // trigger componentDidMount
-          <FormTeacher data={formData} onSubmit={handleSubmit} isEdit={!!teacherId} />
-        )}
+        {visible && <FormTeacher data={formData} onSubmit={handleSubmit} />}
       </Spin>
     </Modal>
   );

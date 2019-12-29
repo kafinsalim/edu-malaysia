@@ -61,17 +61,25 @@ export default function ModalCLCForm(props) {
     } else {
       try {
         console.log(`editing with CLCId ${CLCId}`);
-        reqCLC.updateCLC(CLCId, data).then(response => {
-          if (response.status === 200) {
-            setFetching(false);
-            onSubmit();
-            onClose();
-            message.success("Edit berhasil !");
-          } else {
+        reqCLC
+          .updateCLC(CLCId, data)
+          .then(response => {
+            if (response.status === 200) {
+              setFetching(false);
+              onSubmit();
+              onClose();
+              message.success("Edit berhasil !");
+            } else {
+              setFetching(false);
+              message.warning("terdapat kesalahan");
+            }
+          })
+          .catch(error => {
             setFetching(false);
             message.warning("terdapat kesalahan");
-          }
-        });
+            if (error.message) setFormData({ ...formData, errorMessage: error.message });
+            console.log("catch", error);
+          });
       } catch (error) {
         setFetching(false);
         message.warning("terdapat masalah jaringan");
@@ -86,13 +94,13 @@ export default function ModalCLCForm(props) {
   return (
     <Modal
       title={ModalTitle}
-      style={{ top: 32, width: "80%" }}
+      style={{ top: 32 }}
       visible={visible}
       onCancel={onClose}
       footer={null}
     >
       <Spin tip="Sedang Memuat..." spinning={fetching}>
-        <FormCLC data={formData} onSubmit={handleSubmit} />
+        {visible && <FormCLC data={formData} onSubmit={handleSubmit} />}
       </Spin>
     </Modal>
   );

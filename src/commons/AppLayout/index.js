@@ -79,7 +79,7 @@ const AppLayout = props => {
           </Breadcrumb>
           {children}
           <br />
-          <span style={{ float: "right" }}>Edu Malaysia v1.0.2 - 2019</span>
+          <span style={{ float: "right" }}>Edu Malaysia v1.0.3 - 2019</span>
         </Container>
       </Content>
     </WindowLayout>

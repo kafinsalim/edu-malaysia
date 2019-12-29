@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Select, Button, Input, DatePicker } from "antd";
+import { Form, Select, Button, Input, DatePicker, Alert } from "antd";
 import moment from "moment";
 
 const { Option } = Select;
@@ -16,11 +16,6 @@ class FormTeacher extends React.Component {
   componentWillUnmount() {
     const { form } = this.props;
     form.resetFields("form_teacher");
-    console.log("I AM Will DEad, reset yea");
-  }
-
-  componentDidMount() {
-    console.log("I AM ALIVE");
   }
 
   handleSubmit = e => {
@@ -35,8 +30,7 @@ class FormTeacher extends React.Component {
   };
 
   render() {
-    const { data, form, isEdit } = this.props;
-    console.log("formteacher props", this.props);
+    const { data, form } = this.props;
     if (data && data.id) {
       console.log("hit to setValue", data);
       delete data.id;
@@ -45,10 +39,9 @@ class FormTeacher extends React.Component {
       data.date_of_birth = moment(data.date_of_birth, "YYYY-MM-DD");
       form.setFieldsInitialValue(data);
     } else {
-      console.log("no data && data.id");
       form.resetFields("form_teacher");
     }
-    // if
+
     const { getFieldDecorator } = form;
     const formItemLayout = {
       labelCol: { span: 8 },
@@ -68,6 +61,14 @@ class FormTeacher extends React.Component {
     };
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+        {!!data.errorMessage && (
+          <Alert
+            type="error"
+            message={data.errorMessage}
+            banner
+            style={{ marginBottom: 16 }}
+          />
+        )}
         <Form.Item label="Nama Depan" hasFeedback>
           {getFieldDecorator("first_name", {
             rules: [{ required: true, message: "Mohon isi nama depan!" }]

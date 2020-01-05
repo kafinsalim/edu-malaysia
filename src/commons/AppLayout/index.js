@@ -28,9 +28,10 @@ const Container = styled.div`
 
 const AppLayout = props => {
   console.log("AppLayout props", props);
-  const { layout, children, initialPath } = props;
+  const { layout, children, initialPath, auth, onLogout } = props;
   const initialToggleStatus = layout === "mobile-web" ? true : false;
-  const initialMenu = Menus.find(i => i.path === initialPath).text;
+  const validMenu = Menus.find(i => i.path === initialPath);
+  const initialMenu = validMenu ? validMenu.text : "Dashboard";
 
   const [activeMenu, setActiveMenu] = React.useState(initialMenu);
   const [toggleSiderStatus, setToggleSiderStatus] = React.useState(initialToggleStatus);
@@ -68,6 +69,8 @@ const AppLayout = props => {
         <Header
           onSiderToggleClick={handleSiderToggle}
           toggleSiderStatus={toggleSiderStatus}
+          username={auth.isLogin ? auth.username : "unAuthenticated"}
+          onLogout={onLogout}
         />
         <Container>
           <Breadcrumb style={{ marginBottom: 16 }}>
@@ -79,7 +82,7 @@ const AppLayout = props => {
           </Breadcrumb>
           {children}
           <br />
-          <span style={{ float: "right" }}>Edu Malaysia v1.0.3 - 2019</span>
+          <span style={{ float: "right" }}>Edu Malaysia v1.0.4 - 2019</span>
         </Container>
       </Content>
     </WindowLayout>

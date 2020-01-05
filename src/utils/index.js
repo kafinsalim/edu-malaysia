@@ -113,6 +113,44 @@ const reqAssembly = {
   deleteAssembly: async id => await axios.post(`${BASE_URL}/clc/${id}`)
 };
 
+const authentication = {
+  setUsername: (cvalue, remember) => {
+    const exdays = remember ? 365 : 1;
+    var d = new Date();
+    d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = "username=" + cvalue + ";" + expires + ";path=/";
+  },
+  getUsername: () => {
+    var name = "username=";
+    var ca = document.cookie.split(";");
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) === " ") {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) === 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  },
+  checkLoggedInUser: function() {
+    var user = this.getUsername();
+    if (user !== "") {
+      return {
+        isLogin: true,
+        username: user
+      };
+    } else {
+      return {
+        isLogin: false,
+        username: null
+      };
+    }
+  }
+};
+
 export {
   BASE_URL,
   fetchAPI,
@@ -122,5 +160,6 @@ export {
   capitalizeFirstLetterStringInObject,
   reqTeacher,
   reqCLC,
-  reqAssembly
+  reqAssembly,
+  authentication
 };

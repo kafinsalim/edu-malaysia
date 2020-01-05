@@ -1,14 +1,15 @@
-// import React from "react";
+import React from "react";
 import AppRouter from "./commons/AppRouter";
+import ErrorBoundary from "./commons/ErrorBoundary";
 import "moment/locale/id";
 import "./App.css";
 
-// function App() {
-//   return (
-//     // <StoreProvider store={store}>
-//     <AppRouter />
-//     // </StoreProvider>
-//   );
-// }
+function App() {
+  return (
+    <ErrorBoundary>
+      <AppRouter />
+    </ErrorBoundary>
+  );
+}
 
-export default AppRouter;
+export default App;

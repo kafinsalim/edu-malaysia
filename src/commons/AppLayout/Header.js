@@ -23,7 +23,7 @@ const RightIcons = styled.div`
   overflow: hidden;
 `;
 
-export default ({ onSiderToggleClick, toggleSiderStatus }) => (
+export default ({ onSiderToggleClick, toggleSiderStatus, username, onLogout }) => (
   <HeaderContainer>
     <ToggleSiderButton onClick={() => onSiderToggleClick()}>
       {toggleSiderStatus ? (
@@ -35,9 +35,9 @@ export default ({ onSiderToggleClick, toggleSiderStatus }) => (
     <b>EDU MALAYSIA</b>
     <RightIcons>
       <Icon type="user" size="lg" style={{ padding: "8px 4px 8px 8px" }} />
-      <span style={{ padding: "8px 8px 8px 0px" }}>Admin</span>
+      <span style={{ padding: "8px 8px 8px 0px" }}>{username}</span>
       <Icon type="bell" size="lg" style={{ padding: 8 }} />
-      <Icon type="logout" size="lg" style={{ padding: 8 }} />
+      <Icon type="logout" size="lg" style={{ padding: 8 }} onClick={onLogout} />
     </RightIcons>
   </HeaderContainer>
 );

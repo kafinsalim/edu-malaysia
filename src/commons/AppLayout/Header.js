@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Icon } from "antd";
+import { Icon, Popconfirm } from "antd";
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -37,7 +37,15 @@ export default ({ onSiderToggleClick, toggleSiderStatus, username, onLogout }) =
       <Icon type="user" size="lg" style={{ padding: "8px 4px 8px 8px" }} />
       <span style={{ padding: "8px 8px 8px 0px" }}>{username}</span>
       <Icon type="bell" size="lg" style={{ padding: 8 }} />
-      <Icon type="logout" size="lg" style={{ padding: 8 }} onClick={onLogout} />
+      <Popconfirm
+        title="Logout ?"
+        onConfirm={onLogout}
+        okText="Ya"
+        cancelText="Tidak"
+        placement="bottomRight"
+      >
+        <Icon type="logout" size="lg" style={{ padding: 8 }} />
+      </Popconfirm>
     </RightIcons>
   </HeaderContainer>
 );

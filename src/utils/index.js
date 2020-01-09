@@ -106,8 +106,10 @@ const reqAssembly = {
     await axios
       .get(`${BASE_URL}/clc/${id}`)
       .then(response => capitalizeFirstLetterStringInObject(response.data)),
-  addAssembly: async payload =>
-    await axios.post(`${BASE_URL}/clc`, lowerCaseStringInObject(payload)),
+  assembleTeacher: async ({ CLCId, teacherId, startWorkDate }) =>
+    await axios.post(
+      `${BASE_URL}/clc/assemble-profile/${CLCId}/${teacherId}/${startWorkDate}`
+    ),
   updateAssembly: async (id, payload) =>
     await axios.put(`${BASE_URL}/clc/${id}`, lowerCaseStringInObject(payload)),
   deleteAssembly: async id => await axios.post(`${BASE_URL}/clc/${id}`)

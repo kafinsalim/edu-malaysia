@@ -1,16 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import { Icon, Input, Card, Table, Button, message, Row, Col, Modal } from "antd";
+import { Icon, Input, Card, Button, message, Row, Col, Popconfirm, Spin } from "antd";
 // import { formatedAssemblyTableSource, formatAssemblyForExport } from "./utils";
 import { exportToXLSX, reqAssembly } from "../../utils";
-// import ModalAssemblyForm from "./ModalAssemblyForm";
+import ModalAssemblyForm from "./ModalAssemblyForm";
 const { Search } = Input;
 
 const Assembly = props => {
   const [fetching, setFetching] = React.useState(false);
   const [assemblys, setAssembly] = React.useState([]);
   const [filter, setFilter] = React.useState(false);
-  const [assemblyId, setAssemblyId] = React.useState(null);
+  const [CLCId, setCLCId] = React.useState(null);
   const [modalForm, setModalForm] = React.useState(false);
 
   const refreshTableData = () => {
@@ -38,15 +38,15 @@ const Assembly = props => {
     refreshTableData();
   }, [filter]);
 
-  const onEdit = id => {
-    console.log(`onEdit()`);
-    console.log(`set assemblyId:${assemblyId}`);
-    setAssemblyId(id);
-    setModalForm(true);
-  };
+  // const onEdit = id => {
+  //   console.log(`onEdit()`);
+  //   console.log(`set CLCId:${CLCId}`);
+  //   setCLCId(id);
+  //   setModalForm(true);
+  // };
 
-  const onArchive = id => {
-    console.log(`onArchive()`);
+  const onReleaseTeacher = id => {
+    console.log(`onReleaseTeacher()`);
     reqAssembly
       .deleteAssembly(id)
       .then(response => {
@@ -61,9 +61,8 @@ const Assembly = props => {
   };
 
   const handleCloseModal = () => {
-    // if()
     console.log("closing modal");
-    setAssemblyId(null);
+    setCLCId(null);
     setModalForm(false);
   };
 
@@ -71,65 +70,9 @@ const Assembly = props => {
     refreshTableData();
   };
 
-  const openModal = () => {
+  const openModal = clcId => {
+    setCLCId(clcId);
     setModalForm(true);
-  };
-
-  const checkDetail = assemblyId => (
-    <a href="#" style={{ fontSize: 10 }}>
-      Lihat semua
-    </a>
-  );
-
-  const generateCLCList = total => {
-    const randomName = number => {
-      if (number < 4) {
-        return "Fidel Ramadhan";
-      } else if (number >= 4 && number < 7) {
-        return "Candi Can";
-      } else if ((number = 9)) {
-        return "Abdul El-Aziz Bakar";
-      } else {
-        return "Afrian";
-      }
-    };
-    const randomNum = () => Math.floor(Math.random() * 10);
-    const generateTeachers = () => {
-      const totalTeacher = randomNum();
-      if (totalTeacher) {
-        return Array.from({ length: totalTeacher }, (v, i) => i).map(index => {
-          if (index === 4) {
-            return (
-              <p style={{ textAlign: "right" }}>
-                <a href="#" style={{ marginBottom: 0, lineHeight: "30px" }}>
-                  ...lihat semua
-                </a>
-              </p>
-            );
-          } else {
-            return (
-              <p key={index} style={{ marginBottom: 0, lineHeight: "30px" }}>
-                {randomName(randomNum())}
-              </p>
-            );
-          }
-        });
-      } else {
-        return <p>belum ada guru di clc ini</p>;
-      }
-    };
-    return Array.from({ length: total }, (v, i) => i).map(n => (
-      <Col key={n} xs={24} sm={8}>
-        <Card
-          size="small"
-          title="SD TADIKA MESRA"
-          extra={checkDetail()}
-          style={{ minHeight: 200, maxHeight: 200, overflowY: "hidden" }}
-        >
-          {generateTeachers()}
-        </Card>
-      </Col>
-    ));
   };
 
   return (
@@ -157,34 +100,71 @@ const Assembly = props => {
               disabled={!assemblys.length}
               type="primary"
               icon="download"
-              style={{ marginRight: 16 }}
             >
               Unduh
-            </Button>
-            <Button onClick={openModal} type="primary">
-              <Icon type="plus" /> Daftarkan Guru
             </Button>
           </div>
         </Col>
       </Row>
       <br />
-      <Row gutter={[16, 16]}>{generateCLCList(14)}</Row>
-
-      {/* <Table
-        size="middle"
-        loading={fetching}
-        dataSource={assemblys}
-        columns={formatedAssemblyTableSource(onEdit, onArchive)}
-        rowKey="id"
-        style={{ overflowX: "scroll" }}
-      /> 
-      <ModalAssemblyForm*/}
-      <Modal
+      <Row gutter={[16, 16]}>
+        <Spin tip="Sedang Memuat..." spinning={fetching} style={{ marginTop: "15vh" }}>
+          {assemblys.map(clc => {
+            return (
+              <Col key={clc.id} xs={24} sm={8}>
+                <Card
+                  size="small"
+                  title={clc.name}
+                  extra={
+                    <>
+                      <Button
+                        onClick={() => openModal(clc.id)}
+                        size="small"
+                        style={{ marginRight: 8 }}
+                      >
+                        <Icon type="plus" />
+                      </Button>
+                      <Button onClick={() => openModal(clc.id)} size="small">
+                        <Icon type="eye" />
+                      </Button>
+                    </>
+                  }
+                  style={{ minHeight: 200, maxHeight: 200, overflowY: "hidden" }}
+                >
+                  {clc.teachers && clc.teachers.length > 0 ? (
+                    clc.teachers.map(i => (
+                      <p key={i.id}>
+                        {`${i.first_name} ${i.last_name}`}
+                        <Popconfirm
+                          title={`Hapus ${i.first_name} dari ${clc.name} ?`}
+                          onConfirm={() =>
+                            message.warning(`menghapus ${i.first_name} dari ${clc.name}`)
+                          }
+                          okText="Ya"
+                          cancelText="Tidak"
+                          placement="left"
+                        >
+                          <Icon
+                            type="delete"
+                            style={{ float: "right", cursor: "pointer" }}
+                          />
+                        </Popconfirm>
+                      </p>
+                    ))
+                  ) : (
+                    <p style={{ color: "gray" }}>belum ada guru</p>
+                  )}
+                </Card>
+              </Col>
+            );
+          })}
+        </Spin>
+      </Row>
+      <ModalAssemblyForm
         visible={modalForm}
         onClose={handleCloseModal}
         onSubmit={handleSuccessSubmitForm}
-        assemblyId={assemblyId}
-        // selectedAssemblyData={selectedAssemblyData}
+        CLCId={CLCId}
       />
     </Card>
   );

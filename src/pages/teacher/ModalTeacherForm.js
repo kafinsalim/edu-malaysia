@@ -7,7 +7,6 @@ export default function ModalTeacherForm(props) {
   const { visible, onClose, onSubmit, teacherId } = props;
   const [fetching, setFetching] = React.useState(false);
   const [formData, setFormData] = React.useState({});
-  const [isEditing, setIsEditing] = React.useState(false);
   // const data containing render content
   const ModalTitle = !!teacherId ? "Edit data Guru" : "Tambahkan data Guru";
 

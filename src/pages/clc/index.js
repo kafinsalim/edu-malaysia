@@ -92,7 +92,8 @@ const CLC = props => {
               onClick={() => {
                 setFetching(true);
                 message.loading("sedang mengunduh..", 1, () => setFetching(false));
-                exportToXLSX(formatedCLCsTableSource(CLCs), "Rekap CLC");
+                // exportToXLSX(formatedCLCsTableSource(CLCs), "Rekap CLC");
+                exportToXLSX(CLCs, "Rekap CLC");
               }}
               loading={fetching}
               disabled={!CLCs.length}
